@@ -3,6 +3,7 @@ package com.itacademy.Tickets;
 import com.itacademy.Products.Product;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Ticket implements ITicket{
@@ -21,6 +22,7 @@ public class Ticket implements ITicket{
         this.id = nextId;
         nextId++;
         this.timestamp = new Timestamp(System.currentTimeMillis());
+        ticketLines = new HashMap<>();
         this.ticketValue = 0;
     }
 

@@ -103,11 +103,12 @@ public abstract class LSOH {
     }
 
     public String showProductsByType(int productType) {
-        String productsList = null;
+        String productsList = "";
         switch (productType) {
             case 1:
                 for(Product p: stock) {
                     if (p instanceof Tree) {
+                        p = (Tree) p;
                         productsList += p.toString();
                     }
                 }
@@ -115,6 +116,7 @@ public abstract class LSOH {
             case 2:
                 for(Product p: stock) {
                     if (p instanceof Flower) {
+                        p = (Flower) p;
                         productsList += p.toString();
                     }
                 }
@@ -122,6 +124,7 @@ public abstract class LSOH {
             case 3:
                 for(Product p: stock) {
                     if (p instanceof Decoration) {
+                        p = (Decoration) p;
                         productsList += p.toString();
                     }
                 }
@@ -142,6 +145,6 @@ public abstract class LSOH {
 
     @Override
     public String toString() {
-        return "Little Shop Of Horrors [shop=" + name + ", Total Value= " + stockValue + " € ]";
+        return "FlowerShop ["+ name + ", Total Value= " + stockValue + " € ]";
     }
 }

@@ -23,4 +23,9 @@ public class Flower extends Product {
         return super.getProductId() + " " + super.getName() + " " + colour;
     }
 
+    @Override
+    public String toString() {
+        return "Flower[Id=" + productId + ", name=" + name + ", colour= " + colour + ", price=" + price + " €, stock=" + stock;
+    }
+
 }

@@ -18,7 +18,7 @@ public interface FlowerShopFactory {
 
     Decoration createDecoration(String name, double price, int stock, String material);
 
-    Ticket createTicket(Timestamp timestamp, double ticketValue);
+    Ticket createTicket();
 
     public abstract void removeProduct(int productIndex);
 }

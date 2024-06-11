@@ -1,6 +1,5 @@
 package com.itacademy.FlowerShopFactory;
 
-
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Decorations.JsonDecoration;
 import com.itacademy.Products.Flowers.Flower;
@@ -12,11 +11,8 @@ import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.JsonTicket;
 import com.itacademy.Tickets.Ticket;
 
-import java.sql.Timestamp;
-
 
 public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
-
 
     //  private static JsonFlowerShop instance; Singleton not needed
     public JsonFlowerShop(String name) {
@@ -51,7 +47,6 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
     public Decoration createDecoration(String name, double price, int stock, String material) {
         return new JsonDecoration(name, price, stock, material);
     }
-
 
     @Override
     public Ticket createTicket() {
@@ -104,7 +99,7 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
     @Override
     public double calculateTotalValue() {
         double totalValue = 0d;
-        for (Product p : super.getStock()){
+        for (Product p : stock){
             totalValue += p.getPrice();
         }
         return totalValue;
