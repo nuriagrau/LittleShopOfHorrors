@@ -2,6 +2,15 @@ package com.itacademy.App;
 
 import com.itacademy.FlowerShopFactory.FlowerShopFactory;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
+import com.itacademy.FlowerShopFactory.LSOH;
+import com.itacademy.Products.Decorations.Decoration;
+import com.itacademy.Products.Flowers.Flower;
+import com.itacademy.Products.Flowers.IFlower;
+import com.itacademy.Products.Material;
+import com.itacademy.Products.Product;
+import com.itacademy.Products.Trees.Tree;
+import com.itacademy.Tickets.Ticket;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -9,17 +18,18 @@ import java.util.Scanner;
 public class Application {
 
     private static Scanner scanner = new Scanner(System.in);
-
     private static ArrayList<JsonFlowerShop> jsonFlowerShops = new ArrayList<JsonFlowerShop>();
     {
         // serialize and deserialize flowershops or load existent json flower shops
     }
 
+    //static FlowerShopFactory activeFlowerShop = null;
+    static LSOH activeLSOH = null;
+
 
     public static void startShow() {
-        FlowerShopFactory activeFlowerShop = null;
         int level, option, productType;
-        int flowerShop, flowerShopIndex = -1;
+        int flowerShop, flowerShopIndex = -1, productId = 0, quantity;
         String message, enterMessage = null, flowerShopName = null;
         do {
             level = inputInt("""
@@ -42,7 +52,7 @@ public class Application {
                             """);
                     if (flowerShop == 1) {
                         flowerShopName = inputString("Enter the name for the new flower Shop: ");
-                        activeFlowerShop = new JsonFlowerShop(flowerShopName);
+                        activeLSOH = new JsonFlowerShop(flowerShopName);
                         enterMessage = "Creating the new " + flowerShopName + "flower shop...";
                     } else {
                         do {
@@ -51,7 +61,7 @@ public class Application {
                                     "Enter the name of the one you want ot work with: ");
                             flowerShopIndex = getJsonFlowerShopIndex(flowerShopName);
                         } while (flowerShopIndex != -1);
-                        activeFlowerShop = jsonFlowerShops.get(flowerShopIndex);
+                        activeLSOH = jsonFlowerShops.get(flowerShopIndex);
                         enterMessage = "Entering to " + flowerShopName + " flower shop...";
                     }
                     break;
@@ -62,9 +72,11 @@ public class Application {
             }
             System.out.println(enterMessage);
             do {
-                String productName, colour, material;
+                String name = "", colour, material;
                 double price;
-                int heightCm, quantity;
+                int heightCm, stock, productIndex;
+                boolean found;
+                Product product;
 
                 option = inputInt("""
                 Select an action:
@@ -93,12 +105,28 @@ public class Application {
 
                         switch(productType) {
                             case 1:
-                                productName = inputString("Enter flower name: ");
-                                price = inputDouble("Enter the price: ");
+                                name = inputString("Enter the tree name: ");
+                                heightCm = inputInt("Enter its height in cm: ");
+                                price = inputDouble("Enter its price: ");
+                                stock = inputInt("Enter its stock: ");
+                                Tree newTree = activeLSOH.createTree(name, price, stock, heightCm);
                                 break;
                             case 2:
+                                name = inputString("Enter the flower name: ");
+                                colour = inputString("Enter its colour: ");
+                                price = inputDouble("Enter its price: ");
+                                stock = inputInt("Enter its stock: ");
+                                Flower newFlower = activeLSOH.createFlower(name, price, stock, colour);
                                 break;
                             case 3:
+                                name = inputString("Enter decoration name: ");
+                                do {
+                                    material = inputString("Enter its material (Wood or Plastic): ");
+                                    found = Material.findByName(material);
+                                } while (!found);
+                                price = inputDouble("Enter its price: ");
+                                stock = inputInt("Enter its stock: ");
+                                Decoration newDecoration = activeLSOH.createDecoration(name, price, stock, material);
                                 break;
                         }
                         break;
@@ -111,32 +139,80 @@ public class Application {
                                 """);
                         switch(productType) {
                             case 1:
-
+                                name = inputString(activeLSOH.showProductsByType(productType) + "Enter the name of the tree to remove: ");
                                 break;
                             case 2:
+                                name = inputString(activeLSOH.showProductsByType(productType) + "Enter the name of the flower to remove: ");
                                 break;
                             case 3:
+                                name = inputString(activeLSOH.showProductsByType(productType) + "Enter the name of the decoration to remove: ");
                                 break;
                         }
+                        productIndex = activeLSOH.getProductIndex(name);
+                        activeLSOH.removeProduct(productIndex);
                         break;
-                    case 3:
+                    case 3: // Print All Existent Products // Make specific method with stocks?
+                        System.out.println("--------------------- TREES --------------------------");
+                        activeLSOH.showProductsByType(1);
+                        System.out.println("--------------------- FLOWERS --------------------------");
+                        activeLSOH.showProductsByType(2);
+                        System.out.println("--------------------- DECORATION --------------------------");
+                        activeLSOH.showProductsByType(3);
                         break;
-                    case 4:
+                    case 4: // Print Stock quantities
+                        System.out.println(activeLSOH.printStockWithQuantities());
                         break;
-                    case 5:
+                    case 5: // Print Stock Value
+                        double stockValue = activeLSOH.calculateTotalValue();
+                        activeLSOH.setStockValue(stockValue);
+                        activeLSOH.toString();
                         break;
-                    case 6:
+                    case 6: // Create Purchase Ticket
+                        Ticket newTicket = activeLSOH.createTicket();
+                        productType = inputInt("""
+                                Enter the product type you want to buy:
+                                1. Tree
+                                2. Flower
+                                3. Decoration
+                                """);
+                        switch(productType) {
+                            case 1:
+                                productId = inputInt(activeLSOH.showProductsByType(1) + "Enter the tree id: ");
+                                break;
+                            case 2:
+                                productId = inputInt(activeLSOH.showProductsByType(2) + "Enter the flower id: ");
+                                break;
+                            case 3:
+                                productId = inputInt(activeLSOH.showProductsByType(3) + "Enter the decoration id: ");
+                                break;
+                        }
+                        productIndex = activeLSOH.getProductIndexById(productId);
+                        Product productToAdd = activeLSOH.getProduct(productIndex);
+                        do {
+                            quantity = inputInt("Enter quantity: ");
+                            stock = activeLSOH.getStock().get(productIndex).getStock();
+                            if (quantity < stock) {
+                                newTicket.addTicketLine(productToAdd, quantity);
+                                activeLSOH.getStock().get(productIndex).setStock(stock - quantity);
+                            } else {
+                                System.out.println("The product stock is" + stock + "enter an equal or lower quantity.");
+                            }
+                        } while (quantity > stock);
                         break;
-                    case 7:
+                    case 7: // Show old purchases list
+                        activeLSOH.showOldSales();
                         break;
-                    case 8:
-                        break;
+                    case 8: // Show total sales value
+                        Double totalShopValue = activeLSOH.calculateTotalSalesValue();
+                        System.out.println(activeLSOH.toString() + """
+                                _____________________________________________________________________
+                                                                            TOTAL VALUE = 
+                                """ + totalShopValue);
                 }
 
             } while (option != 0);
         } while (level != 0);
     }
-
 
 
 
@@ -150,6 +226,7 @@ public class Application {
         }
         return jsonFlowerShopIndex;
     }
+
 
     public static String showExistentFlowerShops(ArrayList<JsonFlowerShop> flowerShopsArray) {
         String existentFlowerShopsList = "";

@@ -11,7 +11,7 @@ public class Product implements IProduct {
 
     protected int stock;
 
-    public Product(int productId, String name, double price, int stock) {
+    public Product(String name, double price, int stock) {
         this.productId = nextId;
         nextId++;
         this.name = name;

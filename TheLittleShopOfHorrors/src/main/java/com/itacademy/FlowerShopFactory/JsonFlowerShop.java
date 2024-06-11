@@ -33,39 +33,39 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
     };*/
 
     @Override
-    public Product createProduct(int productId, String name, double price, int stock) {
-        return new JsonProduct(productId, name, price, stock);
+    public Product createProduct(String name, double price, int stock) {
+        return new JsonProduct(name, price, stock);
     }
 
     @Override
-    public Tree createTree(int productId, String name, double price, int stock, int heightCm) {
-        return new JsonTree(productId, name,  price, stock, heightCm);
+    public Tree createTree(String name, double price, int stock, int heightCm) {
+        return new JsonTree(name,  price, stock, heightCm);
     }
 
     @Override
-    public Flower createFlower(int productId, String name, double price, int stock, String colour) {
-        return new JsonFlower(productId, name, price, stock, colour);
+    public Flower createFlower(String name, double price, int stock, String colour) {
+        return new JsonFlower(name, price, stock, colour);
     }
 
     @Override
-    public Decoration createDecoration(int productId, String name, double price, int stock, String material) {
-        return new JsonDecoration(productId, name, price, stock, material);
+    public Decoration createDecoration(String name, double price, int stock, String material) {
+        return new JsonDecoration(name, price, stock, material);
+    }
+
+
+    @Override
+    public Ticket createTicket() {
+        return new JsonTicket();
     }
 
     @Override
-    public Ticket createTicket(Timestamp timestamp, double ticketValue) {
-        return new JsonTicket(timestamp, ticketValue);
+    public void addProduct(Product product) {
+        super.getStock().add(product);
     }
 
     @Override
-    public void addProduct(Product product, int quantity) {
-        super.getStock().put(product, quantity);
-
-    }
-
-    @Override
-    public void removeProduct(Product product) {
-        super.getStock().remove(product);
+    public void removeProduct(int productIndex) {
+        super.getStock().remove(productIndex);
     }
 
     @Override
@@ -78,10 +78,12 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
         super.getTickets().remove(super.getTickets().indexOf(ticket));
     }
 
+
+    // If the active database is charged from persistent data, if not pass these methods to specific shop
     @Override
     public String printStockWithQuantities() {
         int stockTrees = 0, stockFlowers = 0, stockDecoration = 0;
-        for (Product p : super.getStock().keySet()) {
+        for (Product p : super.getStock()) {
             if (p instanceof Tree) {
                 stockTrees++;
             } else if (p instanceof Flower) {
@@ -102,7 +104,7 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
     @Override
     public double calculateTotalValue() {
         double totalValue = 0d;
-        for (Product p : super.getStock().keySet()){
+        for (Product p : super.getStock()){
             totalValue += p.getPrice();
         }
         return totalValue;

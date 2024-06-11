@@ -17,11 +17,11 @@ public class Ticket implements ITicket{
 
     private double ticketValue;
 
-    public Ticket(Timestamp timestamp, double ticketValue) {
+    public Ticket() {
         this.id = nextId;
         nextId++;
         this.timestamp = new Timestamp(System.currentTimeMillis());
-        this.ticketValue = ticketValue;
+        this.ticketValue = 0;
     }
 
     public int getId() {
@@ -56,6 +56,8 @@ public class Ticket implements ITicket{
         this.ticketValue = ticketValue;
     }
 
+
+
     @Override
     public String toString() {
         return id + " " + timestamp + "\n"
@@ -66,5 +68,10 @@ public class Ticket implements ITicket{
     @Override
     public double calculateTicketValue() {
         return 0;
+    }
+
+    @Override
+    public void addTicketLine(Product product, int quantity) {
+        ticketLines.put(product, quantity);
     }
 }

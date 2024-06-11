@@ -10,13 +10,15 @@ import com.itacademy.Tickets.Ticket;
 public interface FlowerShopFactory {
 
 
-    Product createProduct(int productId, String name, double price, int stock);
+    Product createProduct(String name, double price, int stock);
 
-    Tree createTree(int productId, String name, double price, int stock, int heightCm);
+    Tree createTree(String name, double price, int stock, int heightCm);
 
-    Flower createFlower(int productId, String name, double price, int stock, String colour);
+    Flower createFlower(String name, double price, int stock, String colour);
 
-    Decoration createDecoration(int productId, String name, double price, int stock, String material);
+    Decoration createDecoration(String name, double price, int stock, String material);
 
     Ticket createTicket(Timestamp timestamp, double ticketValue);
+
+    public abstract void removeProduct(int productIndex);
 }

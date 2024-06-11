@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 
 public class JsonTicket extends Ticket {
 
-    public JsonTicket(Timestamp timestamp, double ticketValue) {
-        super(timestamp, ticketValue);
+    public JsonTicket() {
+        super();
     }
 
     @Override
