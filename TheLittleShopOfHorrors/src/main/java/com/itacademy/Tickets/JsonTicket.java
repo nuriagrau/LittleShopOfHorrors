@@ -8,8 +8,4 @@ public class JsonTicket extends Ticket {
         super();
     }
 
-    @Override
-    public double calculateTicketValue() {
-        return 0;
-    }
 }

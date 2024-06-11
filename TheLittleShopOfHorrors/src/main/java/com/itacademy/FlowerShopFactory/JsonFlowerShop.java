@@ -11,6 +11,8 @@ import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.JsonTicket;
 import com.itacademy.Tickets.Ticket;
 
+import static com.itacademy.App.Application.activeLSOH;
+
 
 public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
 
@@ -80,11 +82,11 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
         int stockTrees = 0, stockFlowers = 0, stockDecoration = 0;
         for (Product p : super.getStock()) {
             if (p instanceof Tree) {
-                stockTrees++;
+                stockTrees += p.getStock();
             } else if (p instanceof Flower) {
-                stockFlowers++;
+                stockFlowers += p.getStock();
             } else if (p instanceof Decoration) {
-                stockDecoration++;
+                stockDecoration += p.getStock();
             }
         }
         return  "<b>STOCK:</b>\n" +
@@ -100,22 +102,32 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
     public double calculateTotalValue() {
         double totalValue = 0d;
         for (Product p : stock){
-            totalValue += p.getPrice();
+            totalValue += (p.getPrice() * p.getStock());
         }
         return totalValue;
     }
 
     @Override
-    public void showOldSales() {
-        System.out.println(super.getTickets().toString());
+    public void showOldSales(String shopName) {
+        for (Ticket ticket : tickets) {
+            System.out.println("____________________________\n" +
+                     shopName + "\n" + ticket.showHeader() +
+                    ticket.showLines() +
+                    "\n____________________________\n" );
+        }
     }
 
     @Override
     public double calculateTotalSalesValue() {
         double totalSalesValue = 0d;
-        for (Ticket ticket: super.getTickets()) {
+        for (Ticket ticket: tickets) {
+            ticket.calculateTicketValue();
+            System.out.println(ticket.getTicketValue());
             totalSalesValue += ticket.getTicketValue();
         }
         return totalSalesValue;
     }
+
+
+
 }

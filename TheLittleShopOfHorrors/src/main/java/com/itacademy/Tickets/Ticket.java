@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Ticket implements ITicket{
 
     private int id;
@@ -58,22 +59,42 @@ public class Ticket implements ITicket{
         this.ticketValue = ticketValue;
     }
 
-
-
     @Override
     public String toString() {
         return id + " " + timestamp + "\n"
-                + ticketLines +
+                + ticketLines + "\n" +
                 "TOTAL " + getTicketValue() + " €";
     }
 
     @Override
     public double calculateTicketValue() {
-        return 0;
+        double lineValue = 0d, totalValue = 0d;
+        for (Map.Entry<Product, Integer> e : ticketLines.entrySet()) {
+            lineValue = e.getKey().getPrice() * e.getValue();
+            totalValue += lineValue;
+        }
+        this.setTicketValue(totalValue);
+        return totalValue;
     }
 
     @Override
     public void addTicketLine(Product product, int quantity) {
         ticketLines.put(product, quantity);
+    }
+
+    public String showLines() {
+        String lines = "";
+        double lineValue = 0d, totalValue = 0d;
+        for (Map.Entry<Product, Integer> e : ticketLines.entrySet()) {
+            lineValue = e.getKey().getPrice() * e.getValue();
+            lines +=  e.getKey().getName() + "  " +  e.getValue() + "pcs  " + lineValue + "\n";
+            totalValue += lineValue;
+        }
+        lines += "\nTOTAL            " + totalValue;
+        return lines;
+    }
+
+    public String showHeader() {
+        return id + "   " + timestamp + "\n";
     }
 }

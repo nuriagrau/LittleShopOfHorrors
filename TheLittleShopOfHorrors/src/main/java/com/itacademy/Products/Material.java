@@ -4,27 +4,23 @@ public enum Material {
 
 
     WOOD("Wood"),
-    PLASTIC("Plastic"),
-    ;
+    PLASTIC("Plastic");
 
-    private String name;
+    public final String value;
 
 
-    Material(String name) {
+    Material(String value) {
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public static boolean findByName(String name) {
+    public static boolean findByValue(String value) {
         boolean found = false;
         for (Material material : values()) {
-            if (material.getName().equalsIgnoreCase(name)) {
+            if (material.getValue().equalsIgnoreCase(value)) {
                 found = true;
             }
         }

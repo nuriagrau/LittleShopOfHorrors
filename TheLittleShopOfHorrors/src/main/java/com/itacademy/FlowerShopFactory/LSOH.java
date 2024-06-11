@@ -109,7 +109,7 @@ public abstract class LSOH {
                 for(Product p: stock) {
                     if (p instanceof Tree) {
                         p = (Tree) p;
-                        productsList += p.toString();
+                        productsList += p.toString() + "\n";
                     }
                 }
                 break;
@@ -117,7 +117,7 @@ public abstract class LSOH {
                 for(Product p: stock) {
                     if (p instanceof Flower) {
                         p = (Flower) p;
-                        productsList += p.toString();
+                        productsList += p.toString() + "\n";
                     }
                 }
                 break;
@@ -125,7 +125,7 @@ public abstract class LSOH {
                 for(Product p: stock) {
                     if (p instanceof Decoration) {
                         p = (Decoration) p;
-                        productsList += p.toString();
+                        productsList += p.toString() + "\n";
                     }
                 }
                 break;
@@ -139,7 +139,7 @@ public abstract class LSOH {
 
     public abstract double calculateTotalValue();
 
-    public  abstract void showOldSales();
+    public  abstract void showOldSales(String shopName);
 
     public abstract double calculateTotalSalesValue();
 

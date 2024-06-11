@@ -1,16 +1,14 @@
 package com.itacademy.App;
 
-import com.itacademy.FlowerShopFactory.FlowerShopFactory;
+
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LSOH;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Flowers.Flower;
-import com.itacademy.Products.Flowers.IFlower;
 import com.itacademy.Products.Material;
 import com.itacademy.Products.Product;
 import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.Ticket;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -24,7 +22,7 @@ public class Application {
     }
 
     //static FlowerShopFactory activeFlowerShop = null;
-    static LSOH activeLSOH = null;
+    public static LSOH activeLSOH = null;
 
 
     public static void startShow() {
@@ -33,6 +31,7 @@ public class Application {
         String message, enterMessage = null, flowerShopName = null;
         do {
             level = inputInt("""
+                    \n
                     Select exercise level:
                     0. Exit
                     1. Level 1 (Json)
@@ -79,6 +78,7 @@ public class Application {
                 Product product;
 
                 option = inputInt("""
+                \n
                 Select an action:
                 0. Exit
                 1. Add Products
@@ -124,7 +124,7 @@ public class Application {
                                 name = inputString("Enter decoration name: ");
                                 do {
                                     material = inputString("Enter its material (Wood or Plastic): ");
-                                    found = Material.findByName(material);
+                                    found = Material.findByValue(material);
                                 } while (!found);
                                 price = inputDouble("Enter its price: ");
                                 stock = inputInt("Enter its stock: ");
@@ -132,6 +132,7 @@ public class Application {
                                 activeLSOH.addProduct(newDecoration);
                                 break;
                         }
+                        activeLSOH.calculateTotalValue();
                         break;
                     case 2:
                         productType = inputInt("""
@@ -209,17 +210,22 @@ public class Application {
                                 } while (quantity > stock);
                             }
                         } while (productType != 0 && productType <= 3);
-                        newTicket.toString();
+                        activeLSOH.addTicket(newTicket);
+                        newTicket.setTicketValue(newTicket.calculateTicketValue());
+                        System.out.println("____________________________\n" +
+                                activeLSOH.getName() + "\n" + newTicket.showHeader() +
+                                newTicket.showLines() +
+                                "\n____________________________\n" );
                         break;
                     case 7: // Show old purchases list
-                        activeLSOH.showOldSales();
+                        activeLSOH.getTickets().toString();
+                        activeLSOH.showOldSales(activeLSOH.getName());
                         break;
                     case 8: // Show total sales value
-                        Double totalShopValue = activeLSOH.calculateTotalSalesValue();
-                        System.out.println(activeLSOH.toString() + """
-                                _____________________________________________________________________
-                                                                            TOTAL VALUE = 
-                                """ + totalShopValue);
+                        Double totalSalesValue = activeLSOH.calculateTotalSalesValue();
+                        System.out.println(activeLSOH.toString() +
+                                "\n_____________________________________________________________________" +
+                                                                            "\nTOTAL VALUE =" + totalSalesValue);
                 }
 
             } while (option != 0);
