@@ -1,0 +1,8 @@
+{
+  "id": 1001,
+  "timestamp": 1718279556648,
+  "ticketLines": {
+    "Flower[Id=2, name=AudreyII, colour= greenish, price=9999999.0 €, stock=0": 1
+  },
+  "ticketValue": 9999999.0
+}

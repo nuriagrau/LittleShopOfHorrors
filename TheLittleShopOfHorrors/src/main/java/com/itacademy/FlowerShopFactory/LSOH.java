@@ -1,14 +1,16 @@
 package com.itacademy.FlowerShopFactory;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Flowers.Flower;
 import com.itacademy.Products.Product;
 import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.Ticket;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class LSOH {
+public abstract class LSOH implements Serializable {
 
     protected String name;
 
@@ -83,6 +85,7 @@ public abstract class LSOH {
     public Product getProduct(int productIndex) {
         return this.stock.get(productIndex);
     }
+
     public int getProductIndexById(int productId) {
         int jsonProductIndex = -1;
         for (int i = 0; i < this.getStock().size(); i++) {
@@ -92,6 +95,7 @@ public abstract class LSOH {
         }
         return jsonProductIndex;
     }
+
     public int getProductIndex(String name) {
         int jsonProductIndex = -1;
         for (int i = 0; i < this.getStock().size(); i++) {
@@ -147,4 +151,6 @@ public abstract class LSOH {
     public String toString() {
         return "FlowerShop ["+ name + ", Total Value= " + stockValue + " € ]";
     }
+
+
 }

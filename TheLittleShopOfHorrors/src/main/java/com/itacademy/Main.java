@@ -1,11 +1,15 @@
 package com.itacademy;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.App.Application;
 
 public class Main {
     public static void main(String[] args) {
-
-        Application.startShow();
+        try {
+            Application.startShow();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // fer les custom exceptions

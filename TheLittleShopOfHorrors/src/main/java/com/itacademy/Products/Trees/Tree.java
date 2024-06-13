@@ -26,6 +26,6 @@ public class Tree extends Product {
 
     @Override
     public String toString() {
-        return "Tree[Id=" + productId + ", name=" + name + ", heigh(cm)= " + heightCm + ", price=" + price + " €, stock=" + stock;
+        return "Tree[Id=" + productId + ", name=" + name + ", height(cm)= " + heightCm + ", price=" + price + " €, stock=" + stock;
     }
 }

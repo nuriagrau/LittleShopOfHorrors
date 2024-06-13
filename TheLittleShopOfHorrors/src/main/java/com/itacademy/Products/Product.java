@@ -3,7 +3,7 @@ package com.itacademy.Products;
 public class Product implements IProduct {
 
     protected int productId;
-    static int nextId;
+    static int nextId = 1;
 
     protected String name;
 

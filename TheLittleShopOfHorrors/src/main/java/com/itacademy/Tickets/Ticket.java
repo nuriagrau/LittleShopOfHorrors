@@ -11,7 +11,7 @@ public class Ticket implements ITicket{
 
     private int id;
 
-    static int nextId;
+    static int nextId = 1000;
 
     private Timestamp timestamp;
 
@@ -24,7 +24,7 @@ public class Ticket implements ITicket{
         nextId++;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         ticketLines = new HashMap<>();
-        this.ticketValue = 0;
+        this.ticketValue = 0d;
     }
 
     public int getId() {
@@ -80,6 +80,7 @@ public class Ticket implements ITicket{
     @Override
     public void addTicketLine(Product product, int quantity) {
         ticketLines.put(product, quantity);
+        setTicketValue(calculateTicketValue());
     }
 
     public String showLines() {
@@ -95,6 +96,6 @@ public class Ticket implements ITicket{
     }
 
     public String showHeader() {
-        return id + "   " + timestamp + "\n";
+        return id + "\n   " + timestamp + "\n";
     }
 }

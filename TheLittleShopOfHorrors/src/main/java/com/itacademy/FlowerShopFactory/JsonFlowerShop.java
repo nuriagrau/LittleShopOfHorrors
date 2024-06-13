@@ -1,5 +1,9 @@
 package com.itacademy.FlowerShopFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Decorations.JsonDecoration;
 import com.itacademy.Products.Flowers.Flower;
@@ -10,12 +14,18 @@ import com.itacademy.Products.Trees.JsonTree;
 import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.JsonTicket;
 import com.itacademy.Tickets.Ticket;
+import java.io.*;
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.itacademy.App.Application.activeLSOH;
+import static com.itacademy.App.Application.jsonDirPath;
 
 
 public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
 
+    static ObjectMapper objectMapper = new ObjectMapper();
     //  private static JsonFlowerShop instance; Singleton not needed
     public JsonFlowerShop(String name) {
         super(name);
@@ -29,6 +39,7 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
         }
         return instance;
     };*/
+
 
     @Override
     public Product createProduct(String name, double price, int stock) {
@@ -67,8 +78,16 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
 
     @Override
     public void addTicket(Ticket ticket) {
+
         super.getTickets().add(ticket);
+
+        try {
+            objectMapper.writeValue(new File(jsonDirPath + "/" + ticket.getId() + ".json"), ticket);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public void removeTicket(Ticket ticket) {
@@ -127,6 +146,18 @@ public class JsonFlowerShop extends LSOH implements FlowerShopFactory {
         }
         return totalSalesValue;
     }
+
+    public static void serializedJsonFlowerShop(JsonFlowerShop activeJsonFlowershop) throws JsonProcessingException {
+        try {
+            objectMapper.writeValue(new File(jsonDirPath + "/" + activeJsonFlowershop.getName() + ".json"), activeJsonFlowershop);
+            System.out.println(activeJsonFlowershop.name + "has been serialized to a json file.");
+        } catch (Exception e) {
+            e.getMessage();
+            System.out.println("Something went wrong when trying to serialize active flower shop.");
+        }
+    }
+
+
 
 
 

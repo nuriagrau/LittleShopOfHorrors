@@ -1,6 +1,7 @@
 package com.itacademy.App;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LSOH;
 import com.itacademy.Products.Decorations.Decoration;
@@ -8,27 +9,35 @@ import com.itacademy.Products.Flowers.Flower;
 import com.itacademy.Products.Material;
 import com.itacademy.Products.Product;
 import com.itacademy.Products.Trees.Tree;
+import com.itacademy.Tickets.JsonTicket;
 import com.itacademy.Tickets.Ticket;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Application {
 
     private static Scanner scanner = new Scanner(System.in);
-    private static ArrayList<JsonFlowerShop> jsonFlowerShops = new ArrayList<JsonFlowerShop>();
+    private static ArrayList<String> jsonFlowerShops = new ArrayList<String>();
+
     {
         // serialize and deserialize flowershops or load existent json flower shops
     }
 
+
     //static FlowerShopFactory activeFlowerShop = null;
     public static LSOH activeLSOH = null;
+    public static String jsonDirPath;
 
-
-    public static void startShow() {
+    public static void startShow() throws JsonProcessingException {
         int level, option, productType;
         int flowerShop, flowerShopIndex = -1, productId = 0, quantity;
         String message, enterMessage = null, flowerShopName = null;
+        double ticketValue,totalSalesValue;
         do {
             level = inputInt("""
                     \n
@@ -39,29 +48,33 @@ public class Application {
                     3. Level 3 (Mongo DB)
                     """);
 
-            switch(level) {
+            switch (level) {
                 case 0:
-                    message = "You are leaving Little Shop of Horrors App...";
+                    enterMessage = "You are leaving Little Shop of Horrors App...";
                     break;
                 case 1:
                     flowerShop = inputInt(""" 
                             Welcome to Little Shop of Horrors! Choose an option: 
                             1. Create new flower shop
-                            2. Enter to an existent flower shop
+                            2. Enter to an existent flower shop NOT FUCTIONAL YET!
                             """);
                     if (flowerShop == 1) {
                         flowerShopName = inputString("Enter the name for the new flower Shop: ");
                         activeLSOH = new JsonFlowerShop(flowerShopName);
+                        // Create dir for flowershop
+                        // add flowershopName to flowershops arraylist
+                        jsonFlowerShops.add(flowerShopName);
+                        jsonDirPath = obtainJsonDirPath(flowerShopName);
+                        // create a methos for the following
+                        createShopDir(jsonDirPath);
                         enterMessage = "Creating the new " + flowerShopName + " flower shop...";
                     } else {
-                        do {
-                            flowerShopName = inputString("There are the following flower Shops created for this level: \n"
+                           /* flowerShopName = inputString("There are the following flower Shops created for this level: \n"
                                     + showExistentFlowerShops(jsonFlowerShops) +
                                     "Enter the name of the one you want ot work with: ");
-                            flowerShopIndex = getJsonFlowerShopIndex(flowerShopName);
-                        } while (flowerShopIndex != -1);
-                        activeLSOH = jsonFlowerShops.get(flowerShopIndex);
-                        enterMessage = "Entering to " + flowerShopName + " flower shop...";
+                            jsonDirPath = obtainJsonDirPath(flowerShopName);
+
+                        enterMessage = "Entering to " + flowerShopName + " flower shop...";*/
                     }
                     break;
                 case 2:
@@ -70,29 +83,43 @@ public class Application {
                     break;
             }
             System.out.println(enterMessage);
+        } while ((level != 0) && (level > 3));
+        if (level != 0) {
             do {
                 String name = "", colour, material;
                 double price;
-                int heightCm, stock, productIndex;
+                int heightCm, stock, productIndex, saveFlowerShop;
                 boolean found;
-                Product product;
 
                 option = inputInt("""
-                \n
-                Select an action:
-                0. Exit
-                1. Add Products
-                2. Remove Products
-                3. Print All Existent Products
-                4. Print Stock quantities
-                5. Print Stock Value
-                6. Create Purchase Ticket
-                7. Show old purchases list
-                8. Show total sales value                 
-                """);
+                        \n
+                        Select an action:
+                        0. Exit
+                        1. Add Products
+                        2. Remove Products
+                        3. Print All Existent Products
+                        4. Print Stock quantities
+                        5. Print Stock Value
+                        6. Create Purchase Ticket
+                        7. Show old purchases list
+                        8. Show total sales value                 
+                        """);
 
                 switch (option) {
                     case 0:
+                        saveFlowerShop = inputInt("""
+                                1. Save active flowershop.
+                                2. Leave without saving active flowershop.
+                                """);
+                        switch(saveFlowerShop) {
+                            case 1:
+                                jsonDirPath = createShopDir(obtainJsonDirPath(flowerShopName));
+                                JsonFlowerShop.serializedJsonFlowerShop((JsonFlowerShop) activeLSOH);
+                                break;
+                            case 2:
+                                System.out.println("Active flower shop will be missed....");
+                                break;
+                        }
                         message = "You are leaving " + flowerShopName + "...";
                         break;
                     case 1:
@@ -103,7 +130,7 @@ public class Application {
                                 3. Decoration
                                 """);
 
-                        switch(productType) {
+                        switch (productType) {
                             case 1:
                                 name = inputString("Enter the tree name: ");
                                 heightCm = inputInt("Enter its height in cm: ");
@@ -132,7 +159,7 @@ public class Application {
                                 activeLSOH.addProduct(newDecoration);
                                 break;
                         }
-                        activeLSOH.calculateTotalValue();
+                        activeLSOH.setStockValue(activeLSOH.calculateTotalValue());
                         break;
                     case 2:
                         productType = inputInt("""
@@ -141,7 +168,7 @@ public class Application {
                                 2. Flower
                                 3. Decoration
                                 """);
-                        switch(productType) {
+                        switch (productType) {
                             case 1:
                                 name = inputString(activeLSOH.showProductsByType(productType) + "\nEnter the name of the tree to remove: ");
                                 break;
@@ -154,6 +181,7 @@ public class Application {
                         }
                         productIndex = activeLSOH.getProductIndex(name);
                         activeLSOH.removeProduct(productIndex);
+                        activeLSOH.setStockValue(activeLSOH.calculateTotalValue());
                         break;
                     case 3: // Print All Existent Products // Make specific method with stocks?
                         System.out.println("___________________________ TREES ___________________________\n" +
@@ -167,12 +195,12 @@ public class Application {
                         System.out.println(activeLSOH.printStockWithQuantities());
                         break;
                     case 5: // Print Stock Value
-                        double stockValue = activeLSOH.calculateTotalValue();
-                        activeLSOH.setStockValue(stockValue);
+                        activeLSOH.setStockValue(activeLSOH.calculateTotalValue());
                         System.out.println(activeLSOH.toString());
                         break;
                     case 6: // Create Purchase Ticket
                         Ticket newTicket = activeLSOH.createTicket();
+
                         do {
                             productType = inputInt("""
                                     Enter the product type you want to buy or exit:
@@ -196,49 +224,68 @@ public class Application {
                             }
                             if (productType != 0) {
                                 productIndex = activeLSOH.getProductIndexById(productId);
-                                Product productToAdd = activeLSOH.getProduct(productIndex);
-                                do {
-                                    quantity = inputInt("Enter quantity: ");
-                                    stock = activeLSOH.getStock().get(productIndex).getStock();
-                                    if (quantity <= stock) {
-                                        newTicket.addTicketLine(productToAdd, quantity);
-                                        activeLSOH.getStock().get(productIndex).setStock(stock - quantity);
-                                        System.out.println("Product added to the ticket");
-                                    } else {
-                                        System.out.println("The product stock is" + stock + "enter an equal or lower quantity.");
-                                    }
-                                } while (quantity > stock);
+                                if (productIndex != -1) {
+                                    Product productToAdd = activeLSOH.getProduct(productIndex);
+                                    do {
+                                        quantity = inputInt("Enter quantity: ");
+                                        stock = activeLSOH.getStock().get(productIndex).getStock();
+                                        if (quantity <= stock) {
+                                            newTicket.addTicketLine(productToAdd, quantity);
+                                            activeLSOH.getStock().get(productIndex).setStock(stock - quantity);
+                                            System.out.println("Product added to the ticket");
+                                        } else {
+                                            System.out.println("The product stock is " + stock + " enter an equal or lower quantity.");
+                                        }
+                                    } while (quantity > stock);
+                                } else if (productIndex == -1) {
+                                    System.out.println("There is no product with id " + productId);
+                                }
                             }
                         } while (productType != 0 && productType <= 3);
                         activeLSOH.addTicket(newTicket);
-                        newTicket.setTicketValue(newTicket.calculateTicketValue());
-                        System.out.println("____________________________\n" +
-                                activeLSOH.getName() + "\n" + newTicket.showHeader() +
+                        ticketValue = newTicket.calculateTicketValue();
+                        newTicket.setTicketValue(ticketValue);
+                        System.out.println("_______________________________\n" +
+                                activeLSOH.getName() + "     " + newTicket.showHeader() +
                                 newTicket.showLines() +
-                                "\n____________________________\n" );
+                                "\n_______________________________\n");
+                        activeLSOH.setStockValue(activeLSOH.calculateTotalValue());
+                        activeLSOH.calculateTotalSalesValue(); // extract print
                         break;
                     case 7: // Show old purchases list
                         activeLSOH.getTickets().toString();
                         activeLSOH.showOldSales(activeLSOH.getName());
                         break;
                     case 8: // Show total sales value
-                        Double totalSalesValue = activeLSOH.calculateTotalSalesValue();
-                        System.out.println(activeLSOH.toString() +
-                                "\n_____________________________________________________________________" +
-                                                                            "\nTOTAL VALUE =" + totalSalesValue);
+                        totalSalesValue = activeLSOH.calculateTotalSalesValue();
+                        System.out.println(activeLSOH.toString() + "\n" +
+                                "___________________________________________________________________\n" +
+                                "\nTOTAL SALES VALUE =" + totalSalesValue);
                 }
 
+                //activeLSOH.setStockValue(activeLSOH.calculateTotalValue()); Maybe here as it is nearly always a t each case?
+
             } while (option != 0);
-        } while (level != 0);
+        }
     }
 
 
+    public static String obtainJsonDirPath(String flowerShopName) {
+        return JsonTicket.JsonSerializable.filepath.toString() + flowerShopName.replace(" ", "");
+    }
 
+    public static String createShopDir(String jsonDirPath) {
+        File directory = new File(jsonDirPath);
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        return jsonDirPath;
+    }
 
     public static int getJsonFlowerShopIndex(String name) {
         int jsonFlowerShopIndex = -1;
         for (int i = 0; i < jsonFlowerShops.size(); i++) {
-            if (jsonFlowerShops.get(i).getName().equalsIgnoreCase(name)) {
+            if (jsonFlowerShops.get(i).equalsIgnoreCase(name)) {
                 jsonFlowerShopIndex = i;
             }
         }
@@ -246,10 +293,10 @@ public class Application {
     }
 
 
-    public static String showExistentFlowerShops(ArrayList<JsonFlowerShop> flowerShopsArray) {
+    public static String showExistentFlowerShops(ArrayList<String> flowerShopsArray) {
         String existentFlowerShopsList = "";
-        for (JsonFlowerShop jsfs : flowerShopsArray ) {
-            existentFlowerShopsList += jsfs.getName() + "\n";
+        for (String name : flowerShopsArray) {
+            existentFlowerShopsList += name + "\n";
         }
         return existentFlowerShopsList;
     }
