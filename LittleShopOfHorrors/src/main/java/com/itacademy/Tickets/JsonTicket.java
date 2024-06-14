@@ -4,17 +4,11 @@ import java.io.Serializable;
 
 public class JsonTicket extends Ticket implements Serializable {
 
-    private int id;
-
-    static int nextId = 1000;
-
-
-
     public JsonTicket() {
         super();
-        this.id = nextId;
-        nextId++;
     }
+
+
 
 
     public @interface JsonSerializable  {

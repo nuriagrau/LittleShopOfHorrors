@@ -20,7 +20,6 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
     public JsonFlowerShop(String name) {
         super(name);
     }
-
     static ObjectMapper objectMapper = new ObjectMapper();
     //  private static JsonFlowerShop instance; Singleton not needed
 
