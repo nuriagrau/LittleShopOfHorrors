@@ -2,6 +2,10 @@ package com.itacademy.Products;
 
 public class Product implements IProduct {
 
+
+    protected int productId;
+    static int nextId = 1;
+
     protected String name;
 
     protected double price;
@@ -9,9 +13,19 @@ public class Product implements IProduct {
     protected int stock;
 
     public Product(String name, double price, int stock) {
+        this.productId = nextId;
+        nextId++;
         this.name = name;
         this.price = price;
         this.stock = stock;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getName() {

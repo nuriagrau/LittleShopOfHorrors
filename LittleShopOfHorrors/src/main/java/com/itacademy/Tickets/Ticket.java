@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Ticket implements ITicket {
+
+    private int id;
+
+    static int nextId = 1000;
+
     private Timestamp timestamp;
 
     private Map<Product, Integer> ticketLines;
@@ -14,11 +19,20 @@ public class Ticket implements ITicket {
     private double ticketValue;
 
     public Ticket() {
+        this.id = nextId;
+        nextId++;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         ticketLines = new HashMap<>();
         this.ticketValue = 0d;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Timestamp getTimestamp() {
         return timestamp;
