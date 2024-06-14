@@ -1,7 +1,5 @@
 package com.itacademy.FlowerShopFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Decorations.JsonDecoration;
 import com.itacademy.Products.Flowers.Flower;
@@ -17,14 +15,14 @@ import java.io.File;
 
 import static com.itacademy.App.Application.jsonDirPath;
 
-
 public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFactory {
 
-    static ObjectMapper objectMapper = new ObjectMapper();
-    //  private static JsonFlowerShop instance; Singleton not needed
     public JsonFlowerShop(String name) {
         super(name);
     }
+
+    static ObjectMapper objectMapper = new ObjectMapper();
+    //  private static JsonFlowerShop instance; Singleton not needed
 
 
     // Singleton for only one database. Not needed.
@@ -125,7 +123,7 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
     public void showOldSales(String shopName) {
         for (Ticket ticket : tickets) {
             System.out.println("____________________________\n" +
-                     shopName + "\n" + ticket.showHeader() +
+                    shopName + "\n" + ticket.showHeader() +
                     ticket.showLines() +
                     "\n____________________________\n" );
         }
@@ -151,7 +149,6 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
             System.out.println("Something went wrong when trying to serialize active flower shop.");
         }
     }
-
 
 
 

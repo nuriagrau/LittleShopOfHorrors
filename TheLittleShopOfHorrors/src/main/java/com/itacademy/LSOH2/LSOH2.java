@@ -1,14 +1,14 @@
-package com.itacademy.LittleShopOfHorrors;
+package com.itacademy.LSOH2;
 
 import com.itacademy.Products.Product;
 import com.itacademy.Tickets.Ticket;
 
 import java.util.*;
 
-// Not clear if needed. Keeping it just in case. Transported to FlowerShopFactory package as LSOH as abstract class
+// Not clear if needed. Keeping it just in case. Transported to FlowerShopFactory package as LSOH2 as abstract class
 
 
-public abstract class LittleShopOfHorrors {
+public abstract class LSOH2 {
 
     private String name;
 
@@ -18,7 +18,7 @@ public abstract class LittleShopOfHorrors {
 
     private double stockValue; // Maybe not needed as parameter
 
-    public LittleShopOfHorrors(String name) {
+    public LSOH2(String name) {
         this.name = name;
         this.stock = new HashMap<Product, Integer>();
         this.tickets = new ArrayList<Ticket>();

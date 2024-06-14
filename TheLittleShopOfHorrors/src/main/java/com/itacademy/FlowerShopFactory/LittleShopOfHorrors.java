@@ -1,6 +1,5 @@
 package com.itacademy.FlowerShopFactory;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Flowers.Flower;
 import com.itacademy.Products.Product;
@@ -10,7 +9,7 @@ import com.itacademy.Tickets.Ticket;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class LSOH implements Serializable {
+public abstract class LittleShopOfHorrors implements Serializable {
 
     protected String name;
 
@@ -19,7 +18,7 @@ public abstract class LSOH implements Serializable {
 
     protected double stockValue; // Maybe not needed as parameter
 
-    public LSOH(String name) {
+    public LittleShopOfHorrors(String name) {
         this.name = name;
         this.stock = new ArrayList<Product>();
         this.tickets = new ArrayList<Ticket>();
@@ -151,6 +150,7 @@ public abstract class LSOH implements Serializable {
     public String toString() {
         return "FlowerShop ["+ name + ", Total Value= " + stockValue + " € ]";
     }
+
 
 
 }

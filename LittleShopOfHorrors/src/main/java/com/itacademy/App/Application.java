@@ -1,6 +1,5 @@
 package com.itacademy.App;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LittleShopOfHorrors;
@@ -17,9 +16,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
 public class Application {
-
     private static Scanner scanner = new Scanner(System.in);
     private static ArrayList<String> jsonFlowerShops = new ArrayList<String>();
 
