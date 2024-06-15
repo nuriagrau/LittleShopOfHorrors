@@ -26,6 +26,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         //System.out.println("List Product");
         //System.out.println("---------------------------");
         while (myResultSet.next()) {
+            // to return values
             //String name = myResultSet.getString("name");
             //String price = myResultSet.getDouble("price");
             //String stock = myResultSet.getInt("stock");
@@ -35,7 +36,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         myResultSet.close();
     }
 
-
+    // Update these methods in the way that they return the query for  the Application
 
     @Override
     public Product createProduct(String name, double price, int stock) {

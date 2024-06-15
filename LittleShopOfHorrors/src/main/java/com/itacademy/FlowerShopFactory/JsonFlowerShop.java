@@ -1,5 +1,7 @@
 package com.itacademy.FlowerShopFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Decorations.JsonDecoration;
 import com.itacademy.Products.Flowers.Flower;

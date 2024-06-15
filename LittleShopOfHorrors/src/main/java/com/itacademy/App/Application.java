@@ -3,6 +3,7 @@ package com.itacademy.App;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LittleShopOfHorrors;
+import com.itacademy.Persistance.Sql.DatabaseConnection;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Flowers.Flower;
 import com.itacademy.Products.Material;
@@ -12,6 +13,7 @@ import com.itacademy.Tickets.JsonTicket;
 import com.itacademy.Tickets.Ticket;
 
 import java.io.File;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -29,7 +31,7 @@ public class Application {
     public static LittleShopOfHorrors activeLittleShopOfHorrors = null;
     public static String jsonDirPath;
 
-    public static void startShow() throws JsonProcessingException {
+    public static void startShow() throws JsonProcessingException, SQLException {
         int level, option, productType;
         int flowerShop, flowerShopIndex = -1, productId = 0, quantity;
         String message, enterMessage = null, flowerShopName = null;
@@ -74,6 +76,15 @@ public class Application {
                     }
                     break;
                 case 2:
+                    Connection con = DatabaseConnection.getConnection();
+
+                    // the following is to make a query for other parts of the menu
+                    Statement statement = con.createStatement();
+                    String query = "INSERT INTO Product (name, price, stock, type) VALUES ('Audrey II', 1500.00, 1, 'TREE')";
+                    int rowsAffected = statement.executeUpdate(query);
+                    if (rowsAffected > 0) {
+                        System.out.println("Datos insertados correctamente.");
+                    }
                     break;
                 case 3:
                     break;
