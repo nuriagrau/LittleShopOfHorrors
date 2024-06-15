@@ -1,0 +1,57 @@
+-- insert product
+INSERT INTO Product (name, price, stock, type) VALUES
+('LemonTree', 49, 2, 'TREE'),
+('Magnolia', 105, 3, 'TREE'),
+('Audrey II', 1500.00, 1, 'FLOWER'),
+('Rose', 5.00, 100, 'FLOWER'),
+('Daffodil', 3.00, 50, 'FLOWER'),
+('Wooden Pot', 25.00, 30, 'DECORATION'),
+('Plastic Pot', 15.00, 50, 'DECORATION');
+
+-- insert tree
+INSERT INTO Tree (productId, heightCm)
+SELECT productId, 69 FROM Product WHERE name = 'LemonTree';
+
+INSERT INTO Tree (productId, heightCm)
+SELECT productId, 99 FROM Product WHERE name = 'Magnolia';
+
+-- insert flower
+INSERT INTO Flower (productId, colour)
+SELECT productId, 'Greenish' FROM Product WHERE name = 'Audrey II';
+
+INSERT INTO Flower (productId, colour)
+SELECT productId, 'Red' FROM Product WHERE name = 'Rose';
+
+INSERT INTO Flower (productId, colour)
+SELECT productId, 'Yellow' FROM Product WHERE name = 'Daffodil';
+
+-- insert decoration
+INSERT INTO Decoration (productId, material)
+SELECT productId, 'WOOD' FROM Product WHERE name = 'Wooden Pot';
+
+INSERT INTO Decoration (productId, material)
+SELECT productId, 'PLASTIC' FROM Product WHERE name = 'Plastic Pot';
+
+-- insert ticket
+INSERT INTO Ticket (totalValue) VALUES
+(0.0);
+
+-- insert ticketline
+INSERT INTO TicketLine (ticketId, productId, quantity) VALUES
+(1, (SELECT productId FROM Product WHERE name = 'Audrey II'), 1);
+
+-- insert ticket
+INSERT INTO Ticket (totalValue) VALUES
+(0.0);
+
+INSERT INTO TicketLine (ticketId, productId, quantity) VALUES
+(2, (SELECT productId FROM Product WHERE name = 'Rose'), 5);
+
+INSERT INTO TicketLine (ticketId, productId, quantity) VALUES
+(2, (SELECT productId FROM Product WHERE name = 'Daffodil'), 10);
+
+-- update lineValue with price * quantity
+UPDATE TicketLine SET lineValue = quantity * (SELECT price FROM Product WHERE productId = TicketLine.ticketId);
+
+-- update total value with sum of ticket line value
+UPDATE Ticket SET totalValue = (SELECT SUM(lineValue) FROM TicketLine WHERE Ticket.ticketId = TicketLine.ticketId GROUP BY ticketId);

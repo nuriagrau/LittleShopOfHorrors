@@ -12,7 +12,9 @@ import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.JsonTicket;
 import com.itacademy.Tickets.Ticket;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -31,7 +33,7 @@ public class Application {
     public static LittleShopOfHorrors activeLittleShopOfHorrors = null;
     public static String jsonDirPath;
 
-    public static void startShow() throws JsonProcessingException, SQLException {
+    public static void startShow() throws Exception {
         int level, option, productType;
         int flowerShop, flowerShopIndex = -1, productId = 0, quantity;
         String message, enterMessage = null, flowerShopName = null;
@@ -80,10 +82,16 @@ public class Application {
 
                     // the following is to make a query for other parts of the menu
                     Statement statement = con.createStatement();
-                    String query = "INSERT INTO Product (name, price, stock, type) VALUES ('Audrey II', 1500.00, 1, 'TREE')";
+                    String query = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
+                    //String query = "INSERT INTO Product (name, price, stock, type) VALUES ('Audrey II', 1500.00, 1, 'TREE')";
                     int rowsAffected = statement.executeUpdate(query);
                     if (rowsAffected > 0) {
-                        System.out.println("Datos insertados correctamente.");
+                        System.out.println("Flowershop created correctly...");
+                    }
+                    query = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
+                    rowsAffected = statement.executeUpdate(query);
+                    if (rowsAffected > 0) {
+                        System.out.println("Flowershop items loaded correctly....");
                     }
                     break;
                 case 3:
@@ -373,6 +381,19 @@ public class Application {
             }
         }
         return input;
+    }
+
+    public static String readToStringTXT(String filePath) throws Exception {
+        File file = new File(filePath);
+        String string;
+        String txtFileToString = "";
+        BufferedReader bReader = new BufferedReader(new FileReader(file));
+        System.out.println(file.getName() + " content is :");
+        while ((string = bReader.readLine()) != null) {
+            txtFileToString += string;
+        }
+        bReader.close();
+        return txtFileToString;
     }
 
 }

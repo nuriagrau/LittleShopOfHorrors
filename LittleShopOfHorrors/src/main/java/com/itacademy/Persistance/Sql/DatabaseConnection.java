@@ -10,11 +10,11 @@ public class DatabaseConnection {
     static
     {
         //String url = "jdbc:mysql://localhost:3306/thelittleshopofhorrorsdb","root", "admin2";
-       // String user = "root";
+       // String user = "root"; MySQL Workbench version 6.3.
        // String pass = "admin2";
         try {
             //Class.forName("com.mysql.cj.jdbc.Driver'");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/thelittleshopofhorrorsdb","root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root", "");
         }
         catch (SQLException e) {
             e.getMessage();

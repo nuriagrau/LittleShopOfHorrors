@@ -1,0 +1,54 @@
+-- drop if exists
+DROP DATABASE littleshopofhorrorsdb;
+
+-- create
+CREATE DATABASE IF NOT EXISTS littleshopofhorrorsdb;
+USE littleshopofhorrorsdb;
+
+-- table product
+CREATE TABLE IF NOT EXISTS Product (
+    productId INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DOUBLE NOT NULL,
+    stock INT NOT NULL,
+    type ENUM('TREE', 'FLOWER', 'DECORATION') NOT NULL
+);
+
+-- table tree
+CREATE TABLE IF NOT EXISTS Tree (
+    productId INT PRIMARY KEY,
+    heightCm INT NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId)
+);
+
+-- table flower
+CREATE TABLE IF NOT EXISTS Flower (
+    productId INT PRIMARY KEY,
+    colour VARCHAR(255) NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId)
+);
+
+-- table decoration
+CREATE TABLE IF NOT EXISTS Decoration (
+    productId INT PRIMARY KEY,
+    material ENUM('WOOD', 'PLASTIC') NOT NULL,
+    FOREIGN KEY (productId) REFERENCES Product(productId)
+);
+
+-- table ticket
+CREATE TABLE IF NOT EXISTS Ticket (
+    ticketId INT AUTO_INCREMENT PRIMARY KEY,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    totalValue DOUBLE NOT NULL DEFAULT 0.0
+);
+
+-- table ticketline
+CREATE TABLE IF NOT EXISTS TicketLine (
+    ticketLineId INT AUTO_INCREMENT PRIMARY KEY,
+    ticketId INT NOT NULL,
+    productId INT NOT NULL,
+    quantity INT NOT NULL,
+    lineValue DOUBLE NOT NULL DEFAULT 0.0,
+    FOREIGN KEY (ticketId) REFERENCES Ticket(ticketId),
+    FOREIGN KEY (productId) REFERENCES Product(productId)
+);
