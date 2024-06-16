@@ -1,0 +1,81 @@
+package com.itacademy.Database.Mongo;
+
+import com.itacademy.Persistance.Mongo.DatabaseConnection;
+import com.itacademy.Products.Product;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MongoQueries {
+
+    private static MongoDatabase database = DatabaseConnection.getDatabase();
+    private static MongoCollection<Document> productCollection = database.getCollection("Product");
+
+    // Insertar un producto
+    public static void insertProduct(Product product) {
+        Document document = new Document("productId", product.getProductId())
+            .append("name", product.getName())
+            .append("price", product.getPrice())
+            .append("stock", product.getStock())
+            .append("type", product.getType());
+
+        productCollection.insertOne(document);
+    }
+
+    // Actualizar un producto
+    public static void updateProduct(int productId, String name, double price, int stock, String type) {
+        Bson filter = Filters.eq("productId", productId);
+        Bson update = Updates.combine(
+            Updates.set("name", name),
+            Updates.set("price", price),
+            Updates.set("stock", stock),
+            Updates.set("type", type)
+        );
+
+        productCollection.updateOne(filter, update);
+    }
+
+    // Eliminar un producto
+    public static void deleteProduct(int productId) {
+        Bson filter = Filters.eq("productId", productId);
+        productCollection.deleteOne(filter);
+    }
+
+    // Obtener un producto por ID
+    public static Product getProductById(int productId) {
+        Bson filter = Filters.eq("productId", productId);
+        Document doc = productCollection.find(filter).first();
+
+        if (doc != null) {
+            return new Product(
+                doc.getInteger("productId"),
+                doc.getString("name"),
+                doc.getDouble("price"),
+                doc.getInteger("stock"),
+                doc.getString("type")
+            );
+        }
+        return null;
+    }
+
+    // Obtener todos los productos
+    public static List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        for (Document doc : productCollection.find()) {
+            products.add(new Product(
+                doc.getInteger("productId"),
+                doc.getString("name"),
+                doc.getDouble("price"),
+                doc.getInteger("stock"),
+                doc.getString("type")
+            ));
+        }
+        return products;
+    }
+}
