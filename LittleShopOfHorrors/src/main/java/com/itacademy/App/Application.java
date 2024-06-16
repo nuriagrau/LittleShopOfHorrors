@@ -3,13 +3,19 @@ package com.itacademy.App;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LittleShopOfHorrors;
+import com.itacademy.FlowerShopFactory.SqlFlowerShop;
 import com.itacademy.Persistance.Sql.DatabaseConnection;
 import com.itacademy.Products.Decorations.Decoration;
+import com.itacademy.Products.Decorations.SqlDecoration;
 import com.itacademy.Products.Flowers.Flower;
+import com.itacademy.Products.Flowers.SqlFlower;
 import com.itacademy.Products.Material;
 import com.itacademy.Products.Product;
+import com.itacademy.Products.ProductType;
+import com.itacademy.Products.Trees.SqlTree;
 import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.JsonTicket;
+import com.itacademy.Tickets.SqlTicket;
 import com.itacademy.Tickets.Ticket;
 
 import java.io.BufferedReader;
@@ -19,6 +25,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 
 public class Application {
     private static Scanner scanner = new Scanner(System.in);
@@ -65,7 +73,7 @@ public class Application {
                         // add flowershopName to flowershops arraylist
                         jsonFlowerShops.add(flowerShopName);
                         jsonDirPath = obtainJsonDirPath(flowerShopName);
-                        // create a methos for the following
+                        // create a method for the following
                         createShopDir(jsonDirPath);
                         enterMessage = "Creating the new " + flowerShopName + " flower shop...";
                     } else {
@@ -78,21 +86,14 @@ public class Application {
                     }
                     break;
                 case 2:
-                    Connection con = DatabaseConnection.getConnection();
+                    // Singleton to database
 
-                    // the following is to make a query for other parts of the menu
-                    Statement statement = con.createStatement();
-                    String query = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
-                    //String query = "INSERT INTO Product (name, price, stock, type) VALUES ('Audrey II', 1500.00, 1, 'TREE')";
-                    int rowsAffected = statement.executeUpdate(query);
-                    if (rowsAffected > 0) {
-                        System.out.println("Flowershop created correctly...");
-                    }
-                    query = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
-                    rowsAffected = statement.executeUpdate(query);
-                    if (rowsAffected > 0) {
-                        System.out.println("Flowershop items loaded correctly....");
-                    }
+                    // In case we create a new database
+                    //String createDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
+                    //String loadDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
+
+                    // create active sqlFlowershop and Load products and tickets to it
+
                     break;
                 case 3:
                     break;
@@ -177,6 +178,8 @@ public class Application {
                         activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
                         break;
                     case 2:
+                        int sqlId = -1;
+                        String typeValue = null;
                         productType = inputInt("""
                                 Enter the product type to remove:
                                 1. Tree
@@ -185,17 +188,22 @@ public class Application {
                                 """);
                         switch (productType) {
                             case 1:
-                                name = inputString(activeLittleShopOfHorrors.showProductsByType(productType) + "\nEnter the name of the tree to remove: ");
+                                typeValue = ProductType.valueOfValue("Tree");
                                 break;
                             case 2:
-                                name = inputString(activeLittleShopOfHorrors.showProductsByType(productType) + "\nEnter the name of the flower to remove: ");
+                                typeValue = ProductType.valueOfValue("Flower");
                                 break;
                             case 3:
-                                name = inputString(activeLittleShopOfHorrors.showProductsByType(productType) + "\nEnter the name of the decoration to remove: ");
+                                typeValue = ProductType.valueOfValue("Decoration");
                                 break;
                         }
+                        name = inputString(activeLittleShopOfHorrors.showProductsByType(productType) + "\nEnter the name of the" + typeValue + " to remove: ");
                         productIndex = activeLittleShopOfHorrors.getProductIndex(name);
-                        activeLittleShopOfHorrors.removeProduct(productIndex);
+                        if (productIndex != -1) {
+                            activeLittleShopOfHorrors.removeProduct(productIndex);
+                        } else {
+                            System.out.println("This product does not exist.");
+                        }
                         activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
                         break;
                     case 3: // Print All Existent Products // Make specific method with stocks?
@@ -215,7 +223,6 @@ public class Application {
                         break;
                     case 6: // Create Purchase Ticket
                         Ticket newTicket = activeLittleShopOfHorrors.createTicket();
-
                         do {
                             productType = inputInt("""
                                     Enter the product type you want to buy or exit:
@@ -247,6 +254,7 @@ public class Application {
                                         if (quantity <= stock) {
                                             newTicket.addTicketLine(productToAdd, quantity);
                                             activeLittleShopOfHorrors.getStock().get(productIndex).setStock(stock - quantity);
+                                            // update sqlstock
                                             System.out.println("Product added to the ticket");
                                         } else {
                                             System.out.println("The product stock is " + stock + " enter an equal or lower quantity.");
@@ -260,15 +268,18 @@ public class Application {
                         activeLittleShopOfHorrors.addTicket(newTicket);
                         ticketValue = newTicket.calculateTicketValue();
                         newTicket.setTicketValue(ticketValue);
+                        if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                            ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
+                        }
                         System.out.println("_______________________________\n" +
                                 activeLittleShopOfHorrors.getName() + "     " + newTicket.showHeader() +
                                 newTicket.showLines() +
                                 "\n_______________________________\n");
                         activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
-                        activeLittleShopOfHorrors.calculateTotalSalesValue(); // extract print
+                        activeLittleShopOfHorrors.calculateTotalSalesValue();
                         break;
                     case 7: // Show old purchases list
-                        activeLittleShopOfHorrors.getTickets().toString();
+                        activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
                         activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
                         break;
                     case 8: // Show total sales value
@@ -305,6 +316,18 @@ public class Application {
             }
         }
         return jsonFlowerShopIndex;
+    }
+
+    public static int getSqlId(int productIndex) {
+        int sqlId = -1;
+        if (activeLittleShopOfHorrors.getProduct(productIndex) instanceof Tree) {
+            sqlId = ((SqlTree) activeLittleShopOfHorrors.getProduct(productIndex)).getSqlId();
+        } else if (activeLittleShopOfHorrors.getProduct(productIndex) instanceof Flower) {
+            sqlId = ((SqlFlower) activeLittleShopOfHorrors.getProduct(productIndex)).getSqlId();
+        } else if (activeLittleShopOfHorrors.getProduct(productIndex) instanceof  Decoration){
+            sqlId = ((SqlDecoration) activeLittleShopOfHorrors.getProduct(productIndex)).getSqlId();
+        }
+        return sqlId;
     }
 
 
@@ -388,9 +411,8 @@ public class Application {
         String string;
         String txtFileToString = "";
         BufferedReader bReader = new BufferedReader(new FileReader(file));
-        System.out.println(file.getName() + " content is :");
         while ((string = bReader.readLine()) != null) {
-            txtFileToString += string;
+            txtFileToString += string + "\n";
         }
         bReader.close();
         return txtFileToString;

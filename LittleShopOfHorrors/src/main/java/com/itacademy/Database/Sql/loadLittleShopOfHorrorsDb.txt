@@ -33,25 +33,25 @@ INSERT INTO Decoration (productId, material)
 SELECT productId, 'PLASTIC' FROM Product WHERE name = 'Plastic Pot';
 
 -- insert ticket
-INSERT INTO Ticket (totalValue) VALUES
+INSERT INTO Ticket (ticketValue) VALUES
 (0.0);
 
 -- insert ticketline
 INSERT INTO TicketLine (ticketId, productId, quantity) VALUES
-(1, (SELECT productId FROM Product WHERE name = 'Audrey II'), 1);
+(1000, (SELECT productId FROM Product WHERE name = 'Audrey II'), 1);
 
 -- insert ticket
-INSERT INTO Ticket (totalValue) VALUES
+INSERT INTO Ticket (ticketValue) VALUES
 (0.0);
 
 INSERT INTO TicketLine (ticketId, productId, quantity) VALUES
-(2, (SELECT productId FROM Product WHERE name = 'Rose'), 5);
+(1001, (SELECT productId FROM Product WHERE name = 'Rose'), 5);
 
 INSERT INTO TicketLine (ticketId, productId, quantity) VALUES
-(2, (SELECT productId FROM Product WHERE name = 'Daffodil'), 10);
+(1001, (SELECT productId FROM Product WHERE name = 'Daffodil'), 10);
 
 -- update lineValue with price * quantity
 UPDATE TicketLine SET lineValue = quantity * (SELECT price FROM Product WHERE productId = TicketLine.ticketId);
 
 -- update total value with sum of ticket line value
-UPDATE Ticket SET totalValue = (SELECT SUM(lineValue) FROM TicketLine WHERE Ticket.ticketId = TicketLine.ticketId GROUP BY ticketId);
+UPDATE Ticket SET ticketValue = (SELECT SUM(lineValue) FROM TicketLine WHERE Ticket.ticketId = TicketLine.ticketId GROUP BY ticketId);

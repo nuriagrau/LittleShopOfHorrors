@@ -6,12 +6,14 @@ import com.itacademy.Products.Product;
 import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.Ticket;
 
+import java.sql.SQLException;
+
 public interface FlowerShopFactory {
 
 
     Product createProduct(String name, double price, int stock);
 
-    Tree createTree(String name, double price, int stock, int heightCm);
+    Tree createTree(String name, double price, int stock,  int heightCm);
 
     Flower createFlower(String name, double price, int stock, String colour);
 

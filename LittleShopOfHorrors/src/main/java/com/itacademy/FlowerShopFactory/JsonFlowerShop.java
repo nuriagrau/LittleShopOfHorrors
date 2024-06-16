@@ -72,9 +72,7 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
 
     @Override
     public void addTicket(Ticket ticket) {
-
         super.getTickets().add(ticket);
-
         try {
             objectMapper.writeValue(new File(jsonDirPath + "/" + ticket.getId() + ".json"), ticket);
         } catch (Exception e) {
@@ -102,7 +100,7 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
                 stockDecoration += p.getStock();
             }
         }
-        return  "<b>STOCK:</b>\n" +
+        return  "STOCK\n" +
                 "TREES: \n" +
                 "     " + stockTrees + "\n" +
                 "FLOWERS: \n" +
@@ -135,7 +133,6 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
         double totalSalesValue = 0d;
         for (Ticket ticket: tickets) {
             ticket.calculateTicketValue();
-            System.out.println(ticket.getTicketValue());
             totalSalesValue += ticket.getTicketValue();
         }
         return totalSalesValue;

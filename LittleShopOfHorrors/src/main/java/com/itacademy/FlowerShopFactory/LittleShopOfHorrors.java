@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public abstract class LittleShopOfHorrors implements Serializable {
 
-
     protected String name;
 
     protected static ArrayList<Product> stock;
