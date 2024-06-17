@@ -7,8 +7,16 @@ public class Decoration extends Product {
 
     private String material;
 
-    public Decoration(String name, double price, int stock, String material) {
-        super(name, price, stock);
+    public Decoration(int flowerShopId, String name, double price, int stock, String material) {
+        super(flowerShopId, name, price, stock);
+        this.material = material;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
         this.material = material;
     }
 

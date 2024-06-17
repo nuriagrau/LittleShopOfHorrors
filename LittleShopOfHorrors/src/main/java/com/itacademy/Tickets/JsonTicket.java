@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 public class JsonTicket extends Ticket implements Serializable {
 
-    public JsonTicket() {
-        super();
+    public JsonTicket(int flowerShopId) {
+        super(flowerShopId);
     }
-
 
 
 

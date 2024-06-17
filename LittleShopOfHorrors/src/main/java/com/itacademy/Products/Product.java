@@ -6,15 +6,20 @@ public class Product implements IProduct {
     protected int productId;
     static int nextId = 1;
 
+    protected int flowerShopId;
+
     protected String name;
 
     protected double price;
 
     protected int stock;
 
-    public Product(String name, double price, int stock) {
+    protected String productType;
+
+    public Product(int flowerShopId, String name, double price, int stock) {
         this.productId = nextId;
         nextId++;
+        this.flowerShopId = flowerShopId;
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -50,6 +55,14 @@ public class Product implements IProduct {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
     public String toString() {
