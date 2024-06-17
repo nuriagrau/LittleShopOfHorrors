@@ -15,19 +15,87 @@ import com.itacademy.Tickets.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Map;
+
 
 public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFactory {
+
+    private int sqlFlowerShopId;
 
     public SqlFlowerShop(String name) {
         super(name);
     }
 
+    public int getSqlFlowerShopId() {
+        return sqlFlowerShopId;
+    }
+
+    public void setSqlFlowerShopId(int sqlFlowerShopId) {
+        this.sqlFlowerShopId = sqlFlowerShopId;
+    }
+
     static Connection con = DatabaseConnection.getConnection();
 
+    public static SqlFlowerShop loadSqlFlowerShop(int sqlFlowerShopId) {
+        String flowerShopName;
+        double stockValue;
+        String selectFlowerShop = "SELECT * FROM FlowerShop";
+        SqlFlowerShop newSqlFlowerShop = null;
+        try {
+            Statement myStatement = con.createStatement();
+            ResultSet myResultSet = myStatement.executeQuery(selectFlowerShop);
+            while (myResultSet.next()) {
+                flowerShopName = myResultSet.getString("name");
+                stockValue = myResultSet.getDouble("stockValue");
+                newSqlFlowerShop = new SqlFlowerShop(flowerShopName);
+                newSqlFlowerShop.setStockValue(stockValue);
+            }
+            myResultSet.close();
+            myStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return newSqlFlowerShop;
+        }
+    }
+
+    public static void loadSqlProducts(int sqlFlowerShopId) {
+        String flowerShopName;
+        double stockValue;
+        int sqlProductId;
+        String productName;
+        double price;
+        int stock;
+        String productType;
+        String selectFlowerShop = "SELECT * FROM FlowerShop";
+        String selectStock = "SELECT * FROM Product WHERE flowerShopId = " + sqlFlowerShopId;
+        String selectFlower = "SELECT * FROM Product WHERE flowerShopId = " + sqlFlowerShopId;
+        try {
+            Statement myStatement = con.createStatement();
+            ResultSet myResultSet = myStatement.executeQuery(selectFlowerShop);
+            while (myResultSet.next()) {
+                flowerShopName = myResultSet.getString("name");
+                stockValue = myResultSet.getDouble("stockValue");
+
+            }
+            myResultSet = myStatement.executeQuery(selectStock);
+            while (myResultSet.next()) {
+                sqlProductId = myResultSet.getInt("productId");
+                sqlFlowerShopId = myResultSet.getInt("flowerShopId");
+                productName = myResultSet.getString("name");
+                price = myResultSet.getDouble("price");
+                stock = myResultSet.getInt("stock");
+                productType = myResultSet.getString("productType");
+            }
+            myResultSet.close();
+            myStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
-    public Product createProduct(String name, double price, int stock) {
-        return new SqlProduct(name, price, stock);
+    public Product createProduct(int flowerShopId, String name, double price, int stock) {
+        return new SqlProduct(flowerShopId, name, price, stock);
     }
 
     @Override
@@ -123,7 +191,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
 
 
     @Override
-    public Ticket createTicket() {
+    public Ticket createTicket(int flowerShopId) {
         Statement myStatement = null;
         int ticketSqlId =  -1;
         try {
@@ -138,7 +206,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new SqlTicket(ticketSqlId);
+        return new SqlTicket(flowerShopId, ticketSqlId);
     }
 
     @Override
@@ -260,7 +328,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectTotalSalesValueQuery);
             while (myResultSet.next()) {
-                totalSalesValue = myResultSet.getDouble("ttotalSalesValue");
+                totalSalesValue = myResultSet.getDouble("totalSalesValue");
             }
             myResultSet.close();
             myStatement.close();

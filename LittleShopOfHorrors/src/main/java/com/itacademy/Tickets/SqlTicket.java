@@ -11,8 +11,8 @@ public class SqlTicket extends Ticket{
 
     private int ticketSqlId;
 
-    public SqlTicket(int ticketSqlId) {
-        super();
+    public SqlTicket(int flowerShopId, int ticketSqlId) {
+        super(flowerShopId);
         this.ticketSqlId = ticketSqlId;
     }
 
@@ -29,6 +29,7 @@ public class SqlTicket extends Ticket{
         super.getTicketLines().put(product, quantity);
         super.setTicketValue(calculateTicketValue());
         int productSqlId = -1;
+        double lineValue = product.getPrice() * quantity;
         if (product instanceof SqlTree) {
             productSqlId = ((SqlTree) product).getSqlId();
         } else if (product instanceof SqlFlower) {
@@ -36,8 +37,9 @@ public class SqlTicket extends Ticket{
         } else if (product instanceof SqlDecoration) {
             productSqlId = ((SqlDecoration) product).getSqlId();
         }
-        String addTicketLinesQuery = "INSERT INTO TicketLine (ticketId, productId, quantity) VALUES\n" +
-                    "(" + this.ticketSqlId + ", (SELECT productId FROM Product WHERE name = " + product.getName() + "), " + quantity + ");\n" +
+        String addTicketLinesQuery = "INSERT INTO TicketLine (ticketId, productId, quantity, lineValue) VALUES\n" +
+                "(" + this.ticketSqlId + ", (SELECT productId FROM Product WHERE name = " + product.getName() + "), " + quantity + ", " + lineValue + ");\n" +
                 "UPDATE Product SET stock = " + (product.getStock() - quantity) + " WHERE productId = " + productSqlId + ";";
-        }
+
+    }
 }
