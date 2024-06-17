@@ -1,10 +1,8 @@
 package com.itacademy.App;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LittleShopOfHorrors;
 import com.itacademy.FlowerShopFactory.SqlFlowerShop;
-import com.itacademy.Persistance.Sql.DatabaseConnection;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Decorations.SqlDecoration;
 import com.itacademy.Products.Flowers.Flower;
@@ -24,10 +22,11 @@ import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import static com.fasterxml.jackson.databind.type.LogicalType.Map;
-import static com.itacademy.FlowerShopFactory.SqlFlowerShop.loadSqlFlowerShop;
+import static com.itacademy.FlowerShopFactory.SqlFlowerShop.*;
 
 public class Application {
     private static Scanner scanner = new Scanner(System.in);
@@ -91,6 +90,20 @@ public class Application {
                     int sqlFlowerShopId = inputInt("Enter Flowershop Id");
                     activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
                     System.out.println(activeLittleShopOfHorrors.getName()  + activeLittleShopOfHorrors.getStockValue());
+
+                    activeLittleShopOfHorrors.setStock(loadSqlProducts(sqlFlowerShopId));
+
+                    activeLittleShopOfHorrors.setTickets(loadSqlTickets(sqlFlowerShopId));
+                    for (Ticket ticket : activeLittleShopOfHorrors.getTickets()){
+                        SqlTicket sqlTicket = (SqlTicket) ticket;
+                        Map<Integer, Integer> sqlTicketLines = loadSqlTicketLines(sqlTicket.getTicketSqlId());
+                        for (Map.Entry<Integer, Integer> entry: sqlTicketLines.entrySet()) {
+                            int productIndex = activeLittleShopOfHorrors.getProductIndexById(entry.getKey());
+                            Product product = activeLittleShopOfHorrors.getStock().get(productIndex);
+                            activeLittleShopOfHorrors.getTickets().get(sqlTicket.getId()).addTicketLine(product, entry.getValue());
+                        }
+
+                    }
                 // In case we create a new database
                     //String createDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
                     //String loadDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
