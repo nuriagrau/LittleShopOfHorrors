@@ -17,13 +17,23 @@ public class MongoQueries {
     private static MongoDatabase database = DatabaseConnection.getDatabase();
     private static MongoCollection<Document> productCollection = database.getCollection("Product");
 
+    // Insertar una tienda
+    public static void insertFlowerShop() {
+        Document document = new Document("productId", product.getProductId())
+                .append("name", product.getName())
+                .append("price", product.getPrice())
+                .append("stock", product.getStock())
+                .append("type", product.getClass());
+
+        productCollection.insertOne(document);
+    }
     // Insertar un producto
     public static void insertProduct(Product product) {
         Document document = new Document("productId", product.getProductId())
             .append("name", product.getName())
             .append("price", product.getPrice())
             .append("stock", product.getStock())
-            .append("type", product.getType());
+            .append("type", product.getClass());
 
         productCollection.insertOne(document);
     }
