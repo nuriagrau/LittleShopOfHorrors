@@ -99,7 +99,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     }
 
     @Override
-    public Tree createTree(String name, double price, int stock, int heightCm) {
+    public Tree createTree(int flowerShopId, String name, double price, int stock, int heightCm) {
         Statement myStatement = null;
         String addTreeQuery = "";
         int sqlId =  -1;
@@ -116,11 +116,11 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new SqlTree(name, price, stock, heightCm, sqlId);
+        return new SqlTree(flowerShopId,name, price, stock, heightCm, sqlId);
     }
 
     @Override
-    public Flower createFlower(String name, double price, int stock, String colour) {
+    public Flower createFlower(int flowerShopId, String name, double price, int stock, String colour) {
         Statement myStatement = null;
         String addFlowerQuery = "";
         int sqlId =  -1;
@@ -137,11 +137,11 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new SqlFlower(name, price, stock, colour, sqlId);
+        return new SqlFlower(flowerShopId, name, price, stock, colour, sqlId);
     }
 
     @Override
-    public Decoration createDecoration(String name, double price, int stock, String material) {
+    public Decoration createDecoration(int flowerShopId, String name, double price, int stock, String material) {
         Statement myStatement = null;
         String addDecorationQuery = "";
         int sqlId =  -1;
@@ -158,7 +158,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return new SqlDecoration(name, price, stock, material, sqlId);
+        return new SqlDecoration(flowerShopId, name, price, stock, material, sqlId);
     }
 
     @Override

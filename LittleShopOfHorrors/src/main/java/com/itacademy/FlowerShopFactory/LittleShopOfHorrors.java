@@ -71,11 +71,11 @@ public abstract class LittleShopOfHorrors implements Serializable {
 
     public abstract Product createProduct(int flowerShopId, String name, double price, int stock);
 
-    public abstract Tree createTree(String name, double price, int stock, int heightCm);
+    public abstract Tree createTree(int flowerShopId, String name, double price, int stock, int heightCm);
 
-    public abstract Flower createFlower(String name, double price, int stock, String colour);
+    public abstract Flower createFlower(int flowerShopId, String name, double price, int stock, String colour);
 
-    public abstract Decoration createDecoration(String name, double price, int stock, String material);
+    public abstract Decoration createDecoration(int flowerShopId, String name, double price, int stock, String material);
 
     public abstract Ticket createTicket(int flowerShopId);
 

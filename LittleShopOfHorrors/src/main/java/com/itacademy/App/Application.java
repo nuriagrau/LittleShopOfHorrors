@@ -90,6 +90,7 @@ public class Application {
                     // Singleton to database
                     int sqlFlowerShopId = inputInt("Enter Flowershop Id");
                     activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
+                    System.out.println(activeLittleShopOfHorrors.getName()  + activeLittleShopOfHorrors.getStockValue());
                 // In case we create a new database
                     //String createDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
                     //String loadDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
@@ -106,7 +107,7 @@ public class Application {
             do {
                 String name = "", colour, material;
                 double price;
-                int heightCm, stock, productIndex, saveFlowerShop;
+                int heightCm, stock, productIndex, saveFlowerShop, flowerShopId;
                 boolean found;
 
                 option = inputInt("""
@@ -141,6 +142,7 @@ public class Application {
                         message = "You are leaving " + flowerShopName + "...";
                         break;
                     case 1:
+                        flowerShopId = activeLittleShopOfHorrors.getId();
                         productType = inputInt("""
                                 Enter the product type to add:
                                 1. Tree
@@ -154,7 +156,7 @@ public class Application {
                                 heightCm = inputInt("Enter its height in cm: ");
                                 price = inputDouble("Enter its price: ");
                                 stock = inputInt("Enter its stock: ");
-                                Tree newTree = activeLittleShopOfHorrors.createTree(name, price, stock, heightCm);
+                                Tree newTree = activeLittleShopOfHorrors.createTree(flowerShopId, name, price, stock, heightCm);
                                 activeLittleShopOfHorrors.addProduct(newTree);
                                 break;
                             case 2:
@@ -162,7 +164,7 @@ public class Application {
                                 colour = inputString("Enter its colour: ");
                                 price = inputDouble("Enter its price: ");
                                 stock = inputInt("Enter its stock: ");
-                                Flower newFlower = activeLittleShopOfHorrors.createFlower(name, price, stock, colour);
+                                Flower newFlower = activeLittleShopOfHorrors.createFlower(flowerShopId, name, price, stock, colour);
                                 activeLittleShopOfHorrors.addProduct(newFlower);
                                 break;
                             case 3:
@@ -173,7 +175,7 @@ public class Application {
                                 } while (!found);
                                 price = inputDouble("Enter its price: ");
                                 stock = inputInt("Enter its stock: ");
-                                Decoration newDecoration = activeLittleShopOfHorrors.createDecoration(name, price, stock, material);
+                                Decoration newDecoration = activeLittleShopOfHorrors.createDecoration(flowerShopId, name, price, stock, material);
                                 activeLittleShopOfHorrors.addProduct(newDecoration);
                                 break;
                         }

@@ -4,8 +4,8 @@ public class SqlDecoration extends Decoration {
 
     int sqlId;
 
-    public SqlDecoration(String name, double price, int stock, String material, int sqlId) {
-        super(name, price, stock, material);
+    public SqlDecoration(int flowerShopId, String name, double price, int stock, String material, int sqlId) {
+        super(flowerShopId, name, price, stock, material);
         this.sqlId = sqlId;
     }
 

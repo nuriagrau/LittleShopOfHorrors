@@ -2,7 +2,7 @@ package com.itacademy.Products.Decorations;
 
 public class JsonDecoration extends Decoration{
 
-    public JsonDecoration(String name, double price, int stock, String material) {
-        super(name, price, stock, material);
+    public JsonDecoration(int flowerShopId, String name, double price, int stock, String material) {
+        super(flowerShopId, name, price, stock, material);
     }
 }
