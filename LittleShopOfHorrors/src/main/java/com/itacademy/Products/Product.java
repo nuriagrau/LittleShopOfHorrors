@@ -12,12 +12,15 @@ public class Product implements IProduct {
 
     protected int stock;
 
+    protected String productType;
+
     public Product(String name, double price, int stock) {
         this.productId = nextId;
         nextId++;
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.productType = productType;
     }
 
     public int getProductId() {
@@ -50,6 +53,14 @@ public class Product implements IProduct {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
     public String toString() {
