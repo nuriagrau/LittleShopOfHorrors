@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="id &amp; nextId returned in Product &amp; Ticket classes" />
+    <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="Update SQL(add table flowershop and script and load checked)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="nuria" />
+        <entry key="$PROJECT_DIR$/.." value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -30,9 +30,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2hrZIi4TUVyAWA5J10RZYW994Zz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -43,6 +43,7 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "daiane",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -115,6 +116,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated to Maven project" />
     <MESSAGE value="id &amp; nextId returned in Product &amp; Ticket classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="id &amp; nextId returned in Product &amp; Ticket classes" />
+    <MESSAGE value="Update SQL(add table flowershop and script and load checked)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update SQL(add table flowershop and script and load checked)" />
   </component>
 </project>
