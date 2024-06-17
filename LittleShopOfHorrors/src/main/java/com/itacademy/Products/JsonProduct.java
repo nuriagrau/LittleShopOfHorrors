@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class JsonProduct extends Product implements Serializable {
 
-    public JsonProduct(String name, double price, int stock) {
-        super(name, price, stock);
+    public JsonProduct(int flowerShopId, String name, double price, int stock) {
+        super(flowerShopId, name, price, stock);
     }
 
     public static int getNextId() {

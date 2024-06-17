@@ -27,6 +27,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static com.fasterxml.jackson.databind.type.LogicalType.Map;
+import static com.itacademy.FlowerShopFactory.SqlFlowerShop.loadSqlFlowerShop;
 
 public class Application {
     private static Scanner scanner = new Scanner(System.in);
@@ -87,8 +88,9 @@ public class Application {
                     break;
                 case 2:
                     // Singleton to database
-
-                    // In case we create a new database
+                    int sqlFlowerShopId = inputInt("Enter Flowershop Id");
+                    activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
+                // In case we create a new database
                     //String createDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
                     //String loadDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
 
@@ -222,7 +224,7 @@ public class Application {
                         System.out.println(activeLittleShopOfHorrors.toString());
                         break;
                     case 6: // Create Purchase Ticket
-                        Ticket newTicket = activeLittleShopOfHorrors.createTicket();
+                        Ticket newTicket = activeLittleShopOfHorrors.createTicket(activeLittleShopOfHorrors.getId());
                         do {
                             productType = inputInt("""
                                     Enter the product type you want to buy or exit:

@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public abstract class LittleShopOfHorrors implements Serializable {
+    static int nextId = 100;
+    protected int id;
 
     protected String name;
 
@@ -19,6 +21,8 @@ public abstract class LittleShopOfHorrors implements Serializable {
     protected double stockValue; // Maybe not needed as parameter
 
     public LittleShopOfHorrors(String name) {
+        this.id = nextId;
+        nextId++;
         this.name = name;
         this.stock = new ArrayList<Product>();
         this.tickets = new ArrayList<Ticket>();
@@ -57,9 +61,15 @@ public abstract class LittleShopOfHorrors implements Serializable {
         this.stockValue = stockValue;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public abstract Product createProduct(String name, double price, int stock);
+    public abstract Product createProduct(int flowerShopId, String name, double price, int stock);
 
     public abstract Tree createTree(String name, double price, int stock, int heightCm);
 
@@ -67,7 +77,7 @@ public abstract class LittleShopOfHorrors implements Serializable {
 
     public abstract Decoration createDecoration(String name, double price, int stock, String material);
 
-    public abstract Ticket createTicket();
+    public abstract Ticket createTicket(int flowerShopId);
 
 
 

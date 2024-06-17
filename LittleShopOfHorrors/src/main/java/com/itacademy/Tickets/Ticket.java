@@ -18,9 +18,12 @@ public class Ticket implements ITicket {
 
     private double ticketValue;
 
-    public Ticket() {
+    private int flowerShopId;
+
+    public Ticket(int flowerShopId) {
         this.id = nextId;
         nextId++;
+        this.flowerShopId = flowerShopId;
         this.timestamp = new Timestamp(System.currentTimeMillis());
         ticketLines = new HashMap<>();
         this.ticketValue = 0d;

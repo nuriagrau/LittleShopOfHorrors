@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public interface FlowerShopFactory {
 
 
-    Product createProduct(String name, double price, int stock);
+    Product createProduct(int flowerShopId, String name, double price, int stock);
 
     Tree createTree(String name, double price, int stock,  int heightCm);
 
@@ -19,7 +19,7 @@ public interface FlowerShopFactory {
 
     Decoration createDecoration(String name, double price, int stock, String material);
 
-    Ticket createTicket();
+    Ticket createTicket(int flowerShopId);
 
     public abstract void removeProduct(int productIndex);
 

@@ -36,8 +36,8 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
 
 
     @Override
-    public Product createProduct(String name, double price, int stock) {
-        return new JsonProduct(name, price, stock);
+    public Product createProduct(int flowerShopId, String name, double price, int stock) {
+        return new JsonProduct(flowerShopId, name, price, stock);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
     }
 
     @Override
-    public Ticket createTicket() {
-        return new JsonTicket();
+    public Ticket createTicket(int flowerShopId) {
+        return new JsonTicket(flowerShopId);
     }
 
     @Override

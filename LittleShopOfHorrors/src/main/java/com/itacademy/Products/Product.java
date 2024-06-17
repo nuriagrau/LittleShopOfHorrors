@@ -6,6 +6,8 @@ public class Product implements IProduct {
     protected int productId;
     static int nextId = 1;
 
+    protected int flowerShopId;
+
     protected String name;
 
     protected double price;
@@ -14,13 +16,13 @@ public class Product implements IProduct {
 
     protected String productType;
 
-    public Product(String name, double price, int stock) {
+    public Product(int flowerShopId, String name, double price, int stock) {
         this.productId = nextId;
         nextId++;
+        this.flowerShopId = flowerShopId;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.productType = productType;
     }
 
     public int getProductId() {
