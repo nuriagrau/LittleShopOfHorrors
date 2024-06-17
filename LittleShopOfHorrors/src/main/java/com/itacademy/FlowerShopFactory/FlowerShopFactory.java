@@ -11,15 +11,15 @@ import java.sql.SQLException;
 public interface FlowerShopFactory {
 
 
-    Product createProduct(String name, double price, int stock);
+    Product createProduct(int flowerShopId, String name, double price, int stock);
 
-    Tree createTree(String name, double price, int stock,  int heightCm);
+    Tree createTree(int flowerShopId, String name, double price, int stock,  int heightCm);
 
-    Flower createFlower(String name, double price, int stock, String colour);
+    Flower createFlower(int flowerShopId, String name, double price, int stock, String colour);
 
-    Decoration createDecoration(String name, double price, int stock, String material);
+    Decoration createDecoration(int flowerShopId, String name, double price, int stock, String material);
 
-    Ticket createTicket();
+    Ticket createTicket(int flowerShopId);
 
     public abstract void removeProduct(int productIndex);
 

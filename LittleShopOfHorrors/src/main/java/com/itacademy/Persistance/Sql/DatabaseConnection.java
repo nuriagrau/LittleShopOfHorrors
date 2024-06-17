@@ -14,7 +14,7 @@ public class DatabaseConnection {
        // String pass = "admin2";
         try {
             //Class.forName("com.mysql.cj.jdbc.Driver'");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/littleshopofhorrorsdb","root", "admin2");
         }
         catch (SQLException e) {
             e.getMessage();

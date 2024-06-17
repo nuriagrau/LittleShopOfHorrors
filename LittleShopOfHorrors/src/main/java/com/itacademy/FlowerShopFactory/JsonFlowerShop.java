@@ -36,28 +36,28 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
 
 
     @Override
-    public Product createProduct(String name, double price, int stock) {
-        return new JsonProduct(name, price, stock);
+    public Product createProduct(int flowerShopId, String name, double price, int stock) {
+        return new JsonProduct(flowerShopId, name, price, stock);
     }
 
     @Override
-    public Tree createTree(String name, double price, int stock, int heightCm) {
-        return new JsonTree(name,  price, stock, heightCm);
+    public Tree createTree(int flowerShopId, String name, double price, int stock, int heightCm) {
+        return new JsonTree(flowerShopId, name,  price, stock, heightCm);
     }
 
     @Override
-    public Flower createFlower(String name, double price, int stock, String colour) {
-        return new JsonFlower(name, price, stock, colour);
+    public Flower createFlower(int flowerShopId, String name, double price, int stock, String colour) {
+        return new JsonFlower(flowerShopId, name, price, stock, colour);
     }
 
     @Override
-    public Decoration createDecoration(String name, double price, int stock, String material) {
-        return new JsonDecoration(name, price, stock, material);
+    public Decoration createDecoration(int flowerShopId, String name, double price, int stock, String material) {
+        return new JsonDecoration(flowerShopId, name, price, stock, material);
     }
 
     @Override
-    public Ticket createTicket() {
-        return new JsonTicket();
+    public Ticket createTicket(int flowerShopId) {
+        return new JsonTicket(flowerShopId);
     }
 
     @Override

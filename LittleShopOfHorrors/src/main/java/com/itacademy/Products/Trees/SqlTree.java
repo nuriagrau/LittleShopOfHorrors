@@ -4,8 +4,8 @@ public class SqlTree extends Tree{
 
     int sqlId;
 
-    public SqlTree(String name, double price, int stock, int heightCm, int sqlId) {
-        super(name, price, stock, heightCm);
+    public SqlTree(int flowerShopId, String name, double price, int stock, int heightCm, int sqlId) {
+        super(flowerShopId, name, price, stock, heightCm);
         this.sqlId = sqlId;
     }
 

@@ -1,12 +1,16 @@
+-- insert flowershop
+INSERT INTO `FlowerShop` (name) VALUES
+("The Little Shop of Horrors");
+
 -- insert product
-INSERT INTO `Product` (name, price, stock, type) VALUES
-("LemonTree", 49, 2, "TREE"),
-("Magnolia", 105, 3, "TREE"),
-("Audrey II", 1500.00, 1, "FLOWER"),
-("Rose", 5.00, 100, "FLOWER"),
-("Daffodil", 3.00, 50, "FLOWER"),
-("Wooden Pot", 25.00, 30, "DECORATION"),
-("Plastic Pot", 15.00, 50, "DECORATION");
+INSERT INTO `Product` (flowerShopId, name, price, stock, productType) VALUES
+(1,"LemonTree", 49, 2, "TREE"),
+(1, "Magnolia", 105, 3, "TREE"),
+(1, "Audrey II", 1500.00, 1, "FLOWER"),
+(1, "Rose", 5.00, 100, "FLOWER"),
+(1, "Daffodil", 3.00, 50, "FLOWER"),
+(1, "Wooden Pot", 25.00, 30, "DECORATION"),
+(1, "Plastic Pot", 15.00, 50, "DECORATION");
 
 -- insert tree
 INSERT INTO `Tree` (productId, heightCm) VALUES
@@ -51,7 +55,10 @@ INSERT INTO `TicketLine` (ticketId, productId, quantity) VALUES
 (1001, (SELECT productId FROM Product WHERE name = "Daffodil"), 10);
 
 -- update lineValue with price * quantity
-UPDATE `TicketLine` SET lineValue = quantity * (SELECT price FROM Product WHERE productId = TicketLine.ticketId);
+UPDATE `TicketLine` SET lineValue = quantity * (SELECT price FROM Product WHERE Product.productId = TicketLine.productId);
 
 -- update total value with sum of ticket line value
 UPDATE `Ticket` SET ticketValue = (SELECT SUM(lineValue) FROM TicketLine WHERE Ticket.ticketId = TicketLine.ticketId GROUP BY ticketId);
+
+UPDATE flowershop
+SET stockValue = (SELECT SUM(price * stock) FROM Product WHERE Product.flowerShopId = 1);

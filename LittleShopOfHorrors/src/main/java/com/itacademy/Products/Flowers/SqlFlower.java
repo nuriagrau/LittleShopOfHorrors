@@ -4,8 +4,8 @@ public class SqlFlower extends Flower{
 
     int sqlId;
 
-    public SqlFlower(String name, double price, int stock, String colour, int sqlId) {
-        super(name, price, stock, colour);
+    public SqlFlower(int flowerShopId, String name, double price, int stock, String colour, int sqlId) {
+        super(flowerShopId,name, price, stock, colour);
         this.sqlId = sqlId;
     }
 
