@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="ticketLines added new statement &amp; new Resultset for second query">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/LittleShopOfHorrors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/LittleShopOfHorrors.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/SqlTicket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/SqlTicket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,11 +46,11 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "daiane",
+    "git-widget-placeholder": "nuria",
     "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
@@ -155,20 +152,5 @@
     <MESSAGE value="Change e.printStackTrace for e.getMessage &amp; lineValue, removeTicket, showOldTickets" />
     <MESSAGE value="ticketLines added new statement &amp; new Resultset for second query" />
     <option name="LAST_COMMIT_MESSAGE" value="ticketLines added new statement &amp; new Resultset for second query" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java</url>
-          <line>140</line>
-          <properties class="com.itacademy.FlowerShopFactory.SqlFlowerShop" method="loadSqlTickets">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

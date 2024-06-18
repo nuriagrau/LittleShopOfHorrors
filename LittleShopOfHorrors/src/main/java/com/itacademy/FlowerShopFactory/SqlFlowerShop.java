@@ -15,7 +15,6 @@ import com.itacademy.Tickets.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -168,9 +167,9 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
                     quantity = ourResultSet.getInt("quantity");
                     newTicket.addSqlTicketLine(sqlProductId, quantity);
                 }
-                System.out.println(newTicketLines.toString());
+                //System.out.println(newTicketLines.toString());
                 newTicket.setSqlTicketLines(newTicketLines);
-                System.out.println(newTicket.toString());
+                //System.out.println(newTicket.toString());
                 newTickets.add(newTicket);
             }
         } catch (Exception e) {
@@ -194,14 +193,18 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int sqlId =  -1;
         try {
             myStatement = con.createStatement();
-            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "TREE" +");";
-            ResultSet myResultSet = myStatement.executeQuery(addProductQuery);
+            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "'TREE'" +");";
+            String askLastInsert = "SELECT last_insert_id();";
+            int rows = myStatement.executeUpdate(addProductQuery);
+            ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
             while (myResultSet.next()) {
-                sqlId = myResultSet.getInt("productId");
+                sqlId = myResultSet.getInt("last_insert_id()");
             }
-            addTreeQuery = "INSERT INTO Tree (productId, heightCm) VALUES ((SELECT productId FROM Product WHERE name = "+ name + "), " + heightCm + ");";
-            myResultSet = myStatement.executeQuery(addTreeQuery);
-            System.out.println("Tree " + name  + " inserted successfully.");
+            addTreeQuery = "INSERT INTO Tree (productId, material) VALUES (" + sqlId + ", " + heightCm + ");";
+            int decoRows = myStatement.executeUpdate(addTreeQuery);
+            if (decoRows > 0) {
+                System.out.println("Tree " + name  + " inserted successfully.");
+            }
             myResultSet.close();
             myStatement.close();
         } catch (SQLException e) {
@@ -217,14 +220,18 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int sqlId =  -1;
         try {
             myStatement = con.createStatement();
-            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "FLOWER" +");";
-            ResultSet myResultSet = myStatement.executeQuery(addProductQuery);
+            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "'FLOWER'" +");";
+            String askLastInsert = "SELECT last_insert_id();";
+            int rows = myStatement.executeUpdate(addProductQuery);
+            ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
             while (myResultSet.next()) {
-                sqlId = myResultSet.getInt("productId");
+                sqlId = myResultSet.getInt("last_insert_id()");
             }
-            addFlowerQuery = "INSERT INTO Flower (productId, colour) VALUES ((SELECT productId FROM Product WHERE name = "+ name + "), " + colour + ");";
-            myResultSet = myStatement.executeQuery(addFlowerQuery);
-            System.out.println("Flower " + name  + " inserted successfully.");
+            addFlowerQuery = "INSERT INTO Flower (productId, colour) VALUES (" + sqlId + ", " + colour + ");";
+            int decoRows = myStatement.executeUpdate(addFlowerQuery);
+            if (decoRows > 0) {
+                System.out.println("Flower " + name  + " inserted successfully.");
+            }
             myResultSet.close();
             myStatement.close();
         } catch (SQLException e) {
@@ -240,14 +247,18 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int sqlId =  -1;
         try {
             myStatement = con.createStatement();
-            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "DECORATION" +");";
-            ResultSet myResultSet = myStatement.executeQuery(addProductQuery);
+            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "'DECORATION'" +");";
+            String askLastInsert = "SELECT last_insert_id();";
+            int rows = myStatement.executeUpdate(addProductQuery);
+            ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
             while (myResultSet.next()) {
-                sqlId = myResultSet.getInt("productId");
+                sqlId = myResultSet.getInt("last_insert_id()");
             }
-            addDecorationQuery = "INSERT INTO Decoration (productId, material) VALUES ((SELECT productId FROM Product WHERE name = "+ name + "), " + material + ");";
-            myResultSet = myStatement.executeQuery(addDecorationQuery);
-            System.out.println("Decoration " + name  + " inserted successfully.");
+            addDecorationQuery = "INSERT INTO Decoration (productId, material) VALUES (" + sqlId + ", " + material + ");";
+            int decoRows = myStatement.executeUpdate(addDecorationQuery);
+            if (decoRows > 0) {
+                System.out.println("Decoration " + name  + " inserted successfully.");
+            }
             myResultSet.close();
             myStatement.close();
         } catch (SQLException e) {
@@ -277,9 +288,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         String removeProductQuery = "DELETE FROM Product WHERE productId = " + sqlId;
         try {
             myStatement = con.createStatement();
-            ResultSet myResultSet = myStatement.executeQuery(removeProductQuery);
-            System.out.println("Product deleted successfully.");
-            myResultSet.close();
+            int rows = myStatement.executeUpdate(removeProductQuery);
+            if (rows > 0) {
+                System.out.println("Product deleted successfully.");
+            }
             myStatement.close();
         } catch (SQLException e) {
             e.getMessage();
@@ -299,12 +311,11 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             String askLastInsert = "SELECT last_insert_id();";
             int rows = myStatement.executeUpdate(addTicketQuery);
             ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
-            //String askSqlTicketId = "SELECT ticketId FROM Ticket WHERE "
             while (myResultSet.next()) {
                 sqlTicketId = myResultSet.getInt("last_insert_id()");
             }
             System.out.println("Ticket created successfully.");
-            //myResultSet.close();
+            myResultSet.close();
             myStatement.close();
         } catch (SQLException e) {
             e.getMessage();
@@ -322,8 +333,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         String updateTicketValueQuery = "UPDATE Ticket SET ticketValue = " + ticket.getTicketValue() + "WHERE ticketId = " + ((SqlTicket) ticket).getTicketSqlId() +";\n";
         try {
             myStatement = con.createStatement();
-            ResultSet myResultSet = myStatement.executeQuery(updateTicketValueQuery);
-            myResultSet.close();
+            int rows = myStatement.executeUpdate(updateTicketValueQuery);
+            if (rows > 0) {
+                System.out.println("Ticket value updated.");
+            }
             myStatement.close();
         } catch (SQLException e) {
             e.getMessage();
@@ -333,11 +346,13 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     public void removeTicket(Ticket ticket) {
         int ticketSqlId = ((SqlTicket)super.getTickets().get(super.getTickets().indexOf(ticket))).getTicketSqlId();
         Statement myStatement = null;
-        String removeTicketQuery = "DELETE FROM Ticket WHERE ticket.id = " + ticketSqlId;
+        String removeTicketQuery = "DELETE FROM Ticket WHERE ticketId = " + ticketSqlId;
         try {
             myStatement = con.createStatement();
-            ResultSet myResultSet = myStatement.executeQuery(removeTicketQuery);
-            myResultSet.close();
+            int rows = myStatement.executeUpdate(removeTicketQuery);
+            if (rows > 0) {
+                System.out.println("Ticket removed correctly.");
+            }
             myStatement.close();
         } catch (SQLException e) {
             e.getMessage();
@@ -348,10 +363,12 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     @Override
     public String printStockWithQuantities() {
         int stockTrees = 0, stockFlowers = 0, stockDecoration = 0;
-        String selectStockQuery = "SELECT SUM(stock) FROM Product GROUP BY productType";
+        String selectTreeStockQuery = "SELECT SUM(stock) AS 'TREE' FROM Product WHERE productType = 'TREE'";
+        String selectFlowerStockQuery = "SELECT SUM(stock) AS 'FLOWER' FROM Product WHERE productType = 'FLOWER'";
+        String selectDecorationStockQuery = "SELECT SUM(stock) AS 'DECORATION' FROM Product WHERE productType = 'DECORATION'";
         try {
             Statement myStatement = con.createStatement();
-            ResultSet myResultSet = myStatement.executeQuery(selectStockQuery);
+            ResultSet myResultSet = myStatement.executeQuery(selectTreeStockQuery);
             while (myResultSet.next()) {
                 stockTrees = myResultSet.getInt("TREE");
                 stockFlowers = myResultSet.getInt("FLOWER");
@@ -374,7 +391,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     @Override
     public double calculateTotalValue() {
         double totalValue = 0d;
-        String selectTotalValueQuery = "SELECT SUM(stock * price) AS totalValue FROM Product";
+        String selectTotalValueQuery = "SELECT SUM(stock * price) AS 'totalValue' FROM Product";
         try {
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectTotalValueQuery);
@@ -403,7 +420,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     @Override
     public double calculateTotalSalesValue() {
         double totalSalesValue = 0d;
-        String selectTotalSalesValueQuery = "SELECT SUM(ticketValue) AS totalSalesValue FROM Ticket";
+        String selectTotalSalesValueQuery = "SELECT SUM(ticketValue) AS 'totalSalesValue' FROM Ticket";
         try {
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectTotalSalesValueQuery);
