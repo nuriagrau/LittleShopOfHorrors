@@ -146,13 +146,14 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int quantity, productId;
         ArrayList<Ticket> newTickets = new ArrayList<>();
         Map<Integer, Integer> sqlTicketLines = new HashMap<>();
-        String selectTicket = "SELECT * FROM Ticket WHERE flowerShopId = " + sqlFlowerShopId;
+        SqlTicket newTicket;
+        String selectTicket = "SELECT * FROM Ticket WHERE flowerShopId = " + sqlFlowerShopId + ";";
         String selectTicketLines = "SELECT ProductID, quantity, lineValue FROM TicketLine JOIN Product ON Ticket.productId = Product.productId WHERE ticketId =  ";
+
         try {
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectTicket);
             while (myResultSet.next()) {
-                SqlTicket newTicket = null;
                 sqlTicketId = myResultSet.getInt("ticketId");
                 //sqlFlowerShopId = myResultSet.getInt("flowerShopId");
                 timestamp = myResultSet.getTimestamp("timestamp");
@@ -161,18 +162,18 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
                 newTicket.setTimestamp(timestamp);
                 newTicket.setTicketValue(ticketValue);
 
-                selectTicketLines += selectTicketLines + sqlTicketId + ";";
+                selectTicketLines += sqlTicketId + ";"; //
                 Statement ourStatement = con.createStatement();
                 ResultSet ourResultSet = ourStatement.executeQuery(selectTicketLines);
-                while (myResultSet.next()) {
+                while (ourResultSet.next()) {//
                         productId = ourResultSet.getInt("productId");
                         quantity = ourResultSet.getInt("quantity");
                         sqlTicketLines.put(productId, quantity);
                 }
                 newTicket.setSqlTicketLines(sqlTicketLines);
             }
-            myResultSet.close();
-            myStatement.close();
+            //myResultSet.close();
+            //myStatement.close();
         } catch (Exception e) {
             e.getMessage();
         } finally {

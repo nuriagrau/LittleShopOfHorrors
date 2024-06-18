@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="Change e.printStackTrace for e.getMessage &amp; lineValue, removeTicket, showOldTickets">
+    <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="ticketLines added new statement &amp; new Resultset for second query">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +47,7 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "nuria",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -140,6 +142,7 @@
     <MESSAGE value="id &amp; nextId returned in Product &amp; Ticket classes" />
     <MESSAGE value="Update SQL(add table flowershop and script and load checked)" />
     <MESSAGE value="Change e.printStackTrace for e.getMessage &amp; lineValue, removeTicket, showOldTickets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change e.printStackTrace for e.getMessage &amp; lineValue, removeTicket, showOldTickets" />
+    <MESSAGE value="ticketLines added new statement &amp; new Resultset for second query" />
+    <option name="LAST_COMMIT_MESSAGE" value="ticketLines added new statement &amp; new Resultset for second query" />
   </component>
 </project>

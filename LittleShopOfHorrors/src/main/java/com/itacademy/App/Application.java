@@ -94,10 +94,7 @@ public class Application {
                     // 0 to exit (flowershopId Start with 100 if flowershopId == 0 exit else...
                     int sqlFlowerShopId = inputInt(SqlFlowerShop.showExistentFlowershops() + "Enter the Flowershop Id");
                     activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
-                    System.out.println(activeLittleShopOfHorrors.getName()  + activeLittleShopOfHorrors.getStockValue());
                     activeLittleShopOfHorrors.setStock(loadSqlProducts(sqlFlowerShopId));
-                    System.out.println(loadSqlProducts(sqlFlowerShopId));
-                    System.out.println(loadSqlProducts(sqlFlowerShopId).toString());
                     activeLittleShopOfHorrors.setTickets(loadSqlTickets(sqlFlowerShopId));
                     for (Ticket ticket : activeLittleShopOfHorrors.getTickets()){
                         SqlTicket sqlTicket = (SqlTicket) ticket;
