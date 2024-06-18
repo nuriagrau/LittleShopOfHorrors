@@ -21,6 +21,8 @@ import java.util.Map;
 
 public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFactory {
 
+    static Connection con = DatabaseConnection.getConnection();
+
     private int sqlFlowerShopId;
 
     public SqlFlowerShop(String name) {
@@ -35,7 +37,28 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         this.sqlFlowerShopId = sqlFlowerShopId;
     }
 
-    static Connection con = DatabaseConnection.getConnection();
+
+    public static String showExistentFlowershops() {
+        String existentFlowerShops = "", name;
+        int id;
+        String selectFlowerShop = "SELECT * FROM FlowerShop";
+        SqlFlowerShop newSqlFlowerShop = null;
+        try {
+            Statement myStatement = con.createStatement();
+            ResultSet myResultSet = myStatement.executeQuery(selectFlowerShop);
+            while (myResultSet.next()) {
+                name = myResultSet.getString("name");
+                id = myResultSet.getInt("flowerShopId");
+                existentFlowerShops += id + ".- " + name + "\n";
+            }
+            myResultSet.close();
+            myStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return existentFlowerShops;
+        }
+    }
 
     public static SqlFlowerShop loadSqlFlowerShop(int sqlFlowerShopId) {
         String flowerShopName;

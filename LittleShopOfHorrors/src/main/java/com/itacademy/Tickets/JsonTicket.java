@@ -8,8 +8,6 @@ public class JsonTicket extends Ticket implements Serializable {
         super(flowerShopId);
     }
 
-
-
     public @interface JsonSerializable  {
 
         @interface JsonElement {
