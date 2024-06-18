@@ -19,7 +19,6 @@ import com.itacademy.Tickets.Ticket;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -103,8 +102,8 @@ public class Application {
                         Map<Integer, Integer> sqlTicketLines = loadSqlTicketLines(sqlTicket.getTicketSqlId());
                         for (Map.Entry<Integer, Integer> entry: sqlTicketLines.entrySet()) {
                             int productIndex = activeLittleShopOfHorrors.getProductIndexById(entry.getKey());
-                            Product product = activeLittleShopOfHorrors.getStock().get(productIndex);
-                            activeLittleShopOfHorrors.getTickets().get(sqlTicket.getId()).addTicketLine(product, entry.getValue());
+                            Product productToAdd = activeLittleShopOfHorrors.getStock().get(productIndex);
+                            activeLittleShopOfHorrors.getTickets().get(sqlTicket.getId()).addTicketLine(productToAdd, entry.getValue());
                         }
                     }
                     break;

@@ -54,7 +54,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         } finally {
             return existentFlowerShops;
         }
@@ -63,7 +63,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     public static SqlFlowerShop loadSqlFlowerShop(int sqlFlowerShopId) {
         String flowerShopName;
         double stockValue;
-        String selectFlowerShop = "SELECT * FROM FlowerShop";
+        String selectFlowerShop = "SELECT * FROM FlowerShop WHERE flowerShopId =" + sqlFlowerShopId;
         SqlFlowerShop newSqlFlowerShop = null;
         try {
             Statement myStatement = con.createStatement();
@@ -77,7 +77,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         } finally {
             return newSqlFlowerShop;
         }
@@ -122,7 +122,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         } finally {
             return newSqlStock;
         }
@@ -135,16 +135,16 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         double ticketValue, lineValue;
         int quantity, productId;
         ArrayList<Ticket> newTickets = new ArrayList<>();
-        Map<Integer, Integer> ticketLines = new HashMap<>();
+        Map<Integer, Integer> sqlTicketLines = new HashMap<>();
         String selectTicket = "SELECT * FROM Ticket WHERE flowerShopId = " + sqlFlowerShopId;
         String selectTicketLines = "SELECT ProductID, quantity, lineValue FROM TicketLine JOIN Product ON Ticket.productId = Product.productId WHERE ticketId =  ";
         try {
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectTicket);
             while (myResultSet.next()) {
-                Ticket newTicket = null;
+                SqlTicket newTicket = null;
                 sqlTicketId = myResultSet.getInt("ticketId");
-                sqlFlowerShopId = myResultSet.getInt("flowerShopId");
+                //sqlFlowerShopId = myResultSet.getInt("flowerShopId");
                 timestamp = myResultSet.getTimestamp("timestamp");
                 ticketValue = myResultSet.getDouble("ticketValue");
                 newTicket = new SqlTicket(sqlTicketId, sqlTicketId);
@@ -156,22 +156,20 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
                 while (myResultSet.next()) {
                         productId = myResultSet.getInt("productId");
                         quantity = myResultSet.getInt("quantity");
-                        lineValue = myResultSet.getDouble("lineValue");
-                        ticketLines.put(productId, quantity);
-                    }
-                    ;
+                        sqlTicketLines.put(productId, quantity);
+                }
+                newTicket.setSqlTicketLines(sqlTicketLines);
             }
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         } finally {
             return newTickets;
         }
     }
 
     public static Map<Integer, Integer> loadSqlTicketLines(int sqlTicketId) {
-        double lineValue;
         int quantity, productId;
         Map<Integer, Integer> newTicketLines = new HashMap<>();
         String selectTicketLines = "SELECT ProductId, quantity, lineValue FROM TicketLine JOIN Product ON Ticket.productId = Product.productId WHERE ticketId =  ";
@@ -182,13 +180,12 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             while (myResultSet.next()) {
                 productId = myResultSet.getInt("productId");
                 quantity = myResultSet.getInt("quantity");
-                lineValue = myResultSet.getDouble("lineValue");
                 newTicketLines.put(productId, quantity);
             }
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         } finally {
             return newTicketLines;
         }
@@ -214,8 +211,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             addTreeQuery = "INSERT INTO Tree (productId, heightCm) VALUES ((SELECT productId FROM Product WHERE name = "+ name + "), " + heightCm + ");";
             myResultSet = myStatement.executeQuery(addTreeQuery);
             System.out.println("Tree " + name  + " inserted successfully.");
+            myResultSet.close();
+            myStatement.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
         return new SqlTree(flowerShopId,name, price, stock, heightCm, sqlId);
     }
@@ -235,8 +234,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             addFlowerQuery = "INSERT INTO Flower (productId, colour) VALUES ((SELECT productId FROM Product WHERE name = "+ name + "), " + colour + ");";
             myResultSet = myStatement.executeQuery(addFlowerQuery);
             System.out.println("Flower " + name  + " inserted successfully.");
+            myResultSet.close();
+            myStatement.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
         return new SqlFlower(flowerShopId, name, price, stock, colour, sqlId);
     }
@@ -256,8 +257,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             addDecorationQuery = "INSERT INTO Decoration (productId, material) VALUES ((SELECT productId FROM Product WHERE name = "+ name + "), " + material + ");";
             myResultSet = myStatement.executeQuery(addDecorationQuery);
             System.out.println("Decoration " + name  + " inserted successfully.");
+            myResultSet.close();
+            myStatement.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
         return new SqlDecoration(flowerShopId, name, price, stock, material, sqlId);
     }
@@ -285,8 +288,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(removeProductQuery);
             System.out.println("Product deleted successfully.");
+            myResultSet.close();
+            myStatement.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
         super.getStock().remove(productIndex);
     }
@@ -305,8 +310,10 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
                 ticketSqlId = myResultSet.getInt("ticketId");
             }
             System.out.println("Ticket created successfully.");
+            myResultSet.close();
+            myStatement.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
         return new SqlTicket(flowerShopId, ticketSqlId);
     }
@@ -322,14 +329,25 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         try {
             myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(updateTicketValueQuery);
+            myResultSet.close();
+            myStatement.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
     }
     @Override
     public void removeTicket(Ticket ticket) {
         int ticketSqlId = ((SqlTicket)super.getTickets().get(super.getTickets().indexOf(ticket))).getTicketSqlId();
+        Statement myStatement = null;
         String removeTicketQuery = "DELETE FROM Ticket WHERE ticket.id = " + ticketSqlId;
+        try {
+            myStatement = con.createStatement();
+            ResultSet myResultSet = myStatement.executeQuery(removeTicketQuery);
+            myResultSet.close();
+            myStatement.close();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
         super.getTickets().remove(super.getTickets().indexOf(ticket));
     }
 
@@ -339,8 +357,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         String selectStockQuery = "SELECT SUM(stock) FROM Product GROUP BY productType";
         try {
             Statement myStatement = con.createStatement();
-            String sql = "SELECT * FROM product";
-            ResultSet myResultSet = myStatement.executeQuery(sql);
+            ResultSet myResultSet = myStatement.executeQuery(selectStockQuery);
             while (myResultSet.next()) {
                 stockTrees = myResultSet.getInt("TREE");
                 stockFlowers = myResultSet.getInt("FLOWER");
@@ -349,7 +366,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return  "STOCK\n" +
                 "TREES: \n" +
@@ -373,14 +390,13 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return totalValue;
     }
 
     @Override
     public void showOldSales(String shopName) {
-        ArrayList<Ticket> oldSalesTickets;
         String name, lines = "", header = "";
         Timestamp timestamp;
         int ticketId, quantity;
@@ -400,25 +416,21 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
 
                 ResultSet myLinesResultSet = myStatement.executeQuery(selectOldSalesLinesQuery);
                 while (myLinesResultSet.next()) {
-                    ticketId = myLinesResultSet.getInt("ticketId");
-                    timestamp = myLinesResultSet.getTimestamp("timestamp");
                     name = myLinesResultSet.getString("name");
                     quantity = myLinesResultSet.getInt("quantity");
                     lineValue = myLinesResultSet.getDouble("lineValue");
-                    ticketValue = myLinesResultSet.getDouble("totalValue");
                     lines += name + "  " +  quantity + "pcs  " + lineValue + "\n";
                 }
                 myLinesResultSet.close();
                 System.out.println("____________________________\n" +
-                        shopName + header + lines +
+                        header + lines +
                         "\nTOTAL            " + ticketValue +
                         "\n____________________________\n" );
-
             }
             myHeaderResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -435,7 +447,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             myResultSet.close();
             myStatement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return totalSalesValue;
     }
