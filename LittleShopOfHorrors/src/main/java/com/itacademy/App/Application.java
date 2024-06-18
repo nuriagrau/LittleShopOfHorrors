@@ -1,10 +1,8 @@
 package com.itacademy.App;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itacademy.FlowerShopFactory.JsonFlowerShop;
 import com.itacademy.FlowerShopFactory.LittleShopOfHorrors;
 import com.itacademy.FlowerShopFactory.SqlFlowerShop;
-import com.itacademy.Persistance.Sql.DatabaseConnection;
 import com.itacademy.Products.Decorations.Decoration;
 import com.itacademy.Products.Decorations.SqlDecoration;
 import com.itacademy.Products.Flowers.Flower;
@@ -21,13 +19,11 @@ import com.itacademy.Tickets.Ticket;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.Map;
-import static com.itacademy.FlowerShopFactory.SqlFlowerShop.loadSqlFlowerShop;
+import static com.itacademy.FlowerShopFactory.SqlFlowerShop.*;
 
 public class Application {
     private static Scanner scanner = new Scanner(System.in);
@@ -37,15 +33,15 @@ public class Application {
         // serialize and deserialize flowershops or load existent json flower shops
     }
 
-
     //static FlowerShopFactory activeFlowerShop = null;
+
     public static LittleShopOfHorrors activeLittleShopOfHorrors = null;
     public static String jsonDirPath;
 
     public static void startShow() throws Exception {
         int level, option, productType;
         int flowerShop, flowerShopIndex = -1, productId = 0, quantity;
-        String message, enterMessage = null, flowerShopName = null;
+        String enterMessage = null, flowerShopName = null;
         double ticketValue,totalSalesValue;
         do {
             level = inputInt("""
@@ -64,39 +60,52 @@ public class Application {
                 case 1:
                     flowerShop = inputInt(""" 
                             Welcome to Little Shop of Horrors! Choose an option: 
+                            0. Exit
                             1. Create new flower shop
                             2. Enter to an existent flower shop NOT FUCTIONAL YET!
                             """);
-                    if (flowerShop == 1) {
-                        flowerShopName = inputString("Enter the name for the new flower Shop: ");
-                        activeLittleShopOfHorrors = new JsonFlowerShop(flowerShopName);
-                        // Create dir for flowershop
-                        // add flowershopName to flowershops arraylist
-                        jsonFlowerShops.add(flowerShopName);
-                        jsonDirPath = obtainJsonDirPath(flowerShopName);
-                        // create a method for the following
-                        createShopDir(jsonDirPath);
-                        enterMessage = "Creating the new " + flowerShopName + " flower shop...";
-                    } else {
-                           /* flowerShopName = inputString("There are the following flower Shops created for this level: \n"
+                    switch(flowerShop){
+                        case 0:
+                            break;
+                        case 1:
+                            flowerShopName = inputString("Enter the name for the new flower Shop: ");
+                            activeLittleShopOfHorrors = new JsonFlowerShop(flowerShopName);
+                            // Create dir for flowershop
+                            // add flowershopName to flowershops arraylist
+                            jsonFlowerShops.add(flowerShopName);
+                            jsonDirPath = obtainJsonDirPath(flowerShopName);
+                            // create a method for the following
+                            createShopDir(jsonDirPath);
+                            enterMessage = "Creating the new " + flowerShopName + " flower shop...";
+                            break;
+                        case 2:
+                            /* flowerShopName = inputString("There are the following flower Shops created for this level: \n"
                                     + showExistentFlowerShops(jsonFlowerShops) +
                                     "Enter the name of the one you want ot work with: ");
                             jsonDirPath = obtainJsonDirPath(flowerShopName);
 
                         enterMessage = "Entering to " + flowerShopName + " flower shop...";*/
+                            break;
                     }
                     break;
                 case 2:
                     // Singleton to database
-                    int sqlFlowerShopId = inputInt("Enter Flowershop Id");
+                    // Enter a blank FlowerShop with name BlankFlowerShop or DefaultFlowerShop
+                    // 0 to exit (flowershopId Start with 100 if flowershopId == 0 exit else...
+                    int sqlFlowerShopId = inputInt(SqlFlowerShop.showExistentFlowershops() + "Enter the Flowershop Id");
                     activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
                     System.out.println(activeLittleShopOfHorrors.getName()  + activeLittleShopOfHorrors.getStockValue());
-                // In case we create a new database
-                    //String createDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/createLittleShopOfHorrorsDb.txt");
-                    //String loadDBQuery = readToStringTXT("src/main/java/com/itacademy/Database/Sql/loadLittleShopOfHorrorsDb.txt");
-
-                    // create active sqlFlowershop and Load products and tickets to it
-
+                    activeLittleShopOfHorrors.setStock(loadSqlProducts(sqlFlowerShopId));
+                    activeLittleShopOfHorrors.setTickets(loadSqlTickets(sqlFlowerShopId));
+                    for (Ticket ticket : activeLittleShopOfHorrors.getTickets()){
+                        SqlTicket sqlTicket = (SqlTicket) ticket;
+                        Map<Integer, Integer> sqlTicketLines = loadSqlTicketLines(sqlTicket.getTicketSqlId());
+                        for (Map.Entry<Integer, Integer> entry: sqlTicketLines.entrySet()) {
+                            int productIndex = activeLittleShopOfHorrors.getProductIndexById(entry.getKey());
+                            Product productToAdd = activeLittleShopOfHorrors.getStock().get(productIndex);
+                            activeLittleShopOfHorrors.getTickets().get(sqlTicket.getId()).addTicketLine(productToAdd, entry.getValue());
+                        }
+                    }
                     break;
                 case 3:
                     break;
@@ -127,10 +136,13 @@ public class Application {
                 switch (option) {
                     case 0:
                         saveFlowerShop = inputInt("""
+                                0. Exit
                                 1. Save active flowershop.
                                 2. Leave without saving active flowershop.
                                 """);
                         switch(saveFlowerShop) {
+                            case 0:
+                                break;
                             case 1:
                                 jsonDirPath = createShopDir(obtainJsonDirPath(flowerShopName));
                                 JsonFlowerShop.serializedJsonFlowerShop((JsonFlowerShop) activeLittleShopOfHorrors);
@@ -139,18 +151,21 @@ public class Application {
                                 System.out.println("Active flower shop will be missed....");
                                 break;
                         }
-                        message = "You are leaving " + flowerShopName + "...";
+                        System.out.println("You are leaving " + flowerShopName + "...");
                         break;
                     case 1:
                         flowerShopId = activeLittleShopOfHorrors.getId();
                         productType = inputInt("""
                                 Enter the product type to add:
+                                0. Exit
                                 1. Tree
                                 2. Flower
                                 3. Decoration
                                 """);
 
                         switch (productType) {
+                            case 0:
+                                break;
                             case 1:
                                 name = inputString("Enter the tree name: ");
                                 heightCm = inputInt("Enter its height in cm: ");
@@ -186,11 +201,14 @@ public class Application {
                         String typeValue = null;
                         productType = inputInt("""
                                 Enter the product type to remove:
+                                0. Exit
                                 1. Tree
                                 2. Flower
                                 3. Decoration
                                 """);
                         switch (productType) {
+                            case 0:
+                                break;
                             case 1:
                                 typeValue = ProductType.valueOfValue("Tree");
                                 break;
@@ -258,7 +276,7 @@ public class Application {
                                         if (quantity <= stock) {
                                             newTicket.addTicketLine(productToAdd, quantity);
                                             activeLittleShopOfHorrors.getStock().get(productIndex).setStock(stock - quantity);
-                                            // update sqlstock
+                                            // update sqlstock in db create method in sqlFlowerShop *******
                                             System.out.println("Product added to the ticket");
                                         } else {
                                             System.out.println("The product stock is " + stock + " enter an equal or lower quantity.");

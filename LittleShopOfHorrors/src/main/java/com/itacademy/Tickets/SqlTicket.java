@@ -5,15 +5,20 @@ import com.itacademy.Products.Flowers.SqlFlower;
 import com.itacademy.Products.Product;
 import com.itacademy.Products.Trees.SqlTree;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SqlTicket extends Ticket{
 
     private int ticketSqlId;
 
+    private Map<Integer, Integer> sqlTicketLines;
+
     public SqlTicket(int flowerShopId, int ticketSqlId) {
         super(flowerShopId);
         this.ticketSqlId = ticketSqlId;
+        sqlTicketLines = new HashMap<>();
     }
 
     public int getTicketSqlId() {
@@ -22,6 +27,14 @@ public class SqlTicket extends Ticket{
 
     public void setTicketSqlId(int ticketSqlId) {
         this.ticketSqlId = ticketSqlId;
+    }
+
+    public Map<Integer, Integer> getSqlTicketLines() {
+        return sqlTicketLines;
+    }
+
+    public void setSqlTicketLines(Map<Integer, Integer> sqlTicketLines) {
+        this.sqlTicketLines = sqlTicketLines;
     }
 
     @Override
