@@ -162,10 +162,11 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
                 newTicket.setTicketValue(ticketValue);
 
                 selectTicketLines += selectTicketLines + sqlTicketId + ";";
-                myResultSet = myStatement.executeQuery(selectTicketLines);
+                Statement ourStatement = con.createStatement();
+                ResultSet ourResultSet = ourStatement.executeQuery(selectTicketLines);
                 while (myResultSet.next()) {
-                        productId = myResultSet.getInt("productId");
-                        quantity = myResultSet.getInt("quantity");
+                        productId = ourResultSet.getInt("productId");
+                        quantity = ourResultSet.getInt("quantity");
                         sqlTicketLines.put(productId, quantity);
                 }
                 newTicket.setSqlTicketLines(sqlTicketLines);
