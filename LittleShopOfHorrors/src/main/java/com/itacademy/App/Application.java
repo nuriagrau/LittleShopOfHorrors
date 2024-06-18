@@ -96,6 +96,8 @@ public class Application {
                     activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
                     System.out.println(activeLittleShopOfHorrors.getName()  + activeLittleShopOfHorrors.getStockValue());
                     activeLittleShopOfHorrors.setStock(loadSqlProducts(sqlFlowerShopId));
+                    System.out.println(loadSqlProducts(sqlFlowerShopId));
+                    System.out.println(loadSqlProducts(sqlFlowerShopId).toString());
                     activeLittleShopOfHorrors.setTickets(loadSqlTickets(sqlFlowerShopId));
                     for (Ticket ticket : activeLittleShopOfHorrors.getTickets()){
                         SqlTicket sqlTicket = (SqlTicket) ticket;

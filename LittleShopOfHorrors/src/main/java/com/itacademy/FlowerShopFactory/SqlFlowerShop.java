@@ -90,43 +90,53 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int stock, heightCm;
         String productType;
         ArrayList<Product> newSqlStock = new ArrayList<>();
-        String selectStock = "SELECT * FROM Product WHERE flowerShopId = " + sqlFlowerShopId;
-        String selectSubproduct = "SELECT * FROM ";
+        String selectStock = "SELECT * FROM Product WHERE flowerShopId = " + sqlFlowerShopId + ";";
+        Product newProduct = null;
         try {
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectStock);
             while (myResultSet.next()) {
-                Product newProduct = null;
                 sqlProductId = myResultSet.getInt("productId");
                 sqlFlowerShopId = myResultSet.getInt("flowerShopId");
                 name = myResultSet.getString("name");
                 price = myResultSet.getDouble("price");
                 stock = myResultSet.getInt("stock");
                 productType = myResultSet.getString("productType");
-                selectSubproduct += productType + " WHERE productId = " + sqlProductId + ";";
-                myResultSet = myStatement.executeQuery(selectSubproduct);
-                while (myResultSet.next()) {
+
+                String selectSubproduct = "SELECT * FROM " + productType.toLowerCase() + " WHERE productId = " + sqlProductId + ";";
+                Statement ourStatement = con.createStatement();
+                ResultSet ourResultSet = ourStatement.executeQuery(selectSubproduct);
+
+                while (ourResultSet.next()) {
                     if (productType.equalsIgnoreCase("Tree")) {
-                        heightCm = myResultSet.getInt("heightCm");
-                        newProduct = new SqlTree(sqlFlowerShopId, name, price, stock,heightCm, sqlProductId);
+                        heightCm = ourResultSet.getInt("heightCm");
+                        newProduct = new SqlTree(sqlFlowerShopId, name, price, stock, heightCm, sqlProductId);
+
                     } else if (productType.equalsIgnoreCase("Flower")) {
-                        colour = myResultSet.getString("colour");
-                        newProduct = new SqlFlower(sqlFlowerShopId, name, price, stock,colour, sqlProductId);
+                        colour = ourResultSet.getString("colour");
+                        newProduct = new SqlFlower(sqlFlowerShopId, name, price, stock, colour, sqlProductId);
+
                     } else if (productType.equalsIgnoreCase("Decoration")) {
-                        material = myResultSet.getString("material");
+                        material = ourResultSet.getString("material");
                         newProduct = new SqlDecoration(sqlFlowerShopId, name, price, stock, material, sqlProductId);
+
                     }
                     newSqlStock.add(newProduct);
                 }
             }
-            myResultSet.close();
-            myStatement.close();
+
+
+
         } catch (Exception e) {
             e.getMessage();
         } finally {
+
+            System.out.println(newSqlStock.size());
             return newSqlStock;
         }
+
     }
+
 
     public static ArrayList<Ticket> loadSqlTickets(int sqlFlowerShopId) {
         int sqlTicketId;
