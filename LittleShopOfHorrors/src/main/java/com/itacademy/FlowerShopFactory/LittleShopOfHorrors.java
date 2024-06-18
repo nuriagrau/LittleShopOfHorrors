@@ -1,8 +1,12 @@
 package com.itacademy.FlowerShopFactory;
 
 import com.itacademy.Products.Decorations.Decoration;
+import com.itacademy.Products.Decorations.SqlDecoration;
 import com.itacademy.Products.Flowers.Flower;
+import com.itacademy.Products.Flowers.SqlFlower;
 import com.itacademy.Products.Product;
+import com.itacademy.Products.SqlProduct;
+import com.itacademy.Products.Trees.SqlTree;
 import com.itacademy.Products.Trees.Tree;
 import com.itacademy.Tickets.Ticket;
 
@@ -103,6 +107,29 @@ public abstract class LittleShopOfHorrors implements Serializable {
             }
         }
         return jsonProductIndex;
+    }
+
+    public int getProductIndexBySqlId(int sqlProductId) {
+        int sqlProductIndex = -1;
+        for (int i = 0; i < this.getStock().size(); i++) {
+            if ((this.getStock().get(i) instanceof Tree )) {
+                SqlTree sqlProduct = (SqlTree) this.getStock().get(i);
+                if (sqlProduct.getSqlId() == sqlProductId) {
+                    sqlProductIndex = i;
+                }
+            } else if ((this.getStock().get(i) instanceof Flower) ) {
+                SqlFlower sqlProduct = (SqlFlower) this.getStock().get(i);
+                if (sqlProduct.getSqlId() == sqlProductId) {
+                    sqlProductIndex = i;
+                }
+            } else if ((this.getStock().get(i) instanceof Decoration) ) {
+                SqlDecoration sqlProduct = (SqlDecoration) this.getStock().get(i);
+                if (sqlProduct.getSqlId() == sqlProductId) {
+                    sqlProductIndex = i;
+                }
+            }
+        }
+        return sqlProductId;
     }
 
     public int getProductIndex(String name) {

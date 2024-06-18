@@ -96,12 +96,13 @@ public class Application {
                     activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
                     activeLittleShopOfHorrors.setStock(loadSqlProducts(sqlFlowerShopId));
                     activeLittleShopOfHorrors.setTickets(loadSqlTickets(sqlFlowerShopId));
-                    for (Ticket ticket : activeLittleShopOfHorrors.getTickets()){
-                        SqlTicket sqlTicket = (SqlTicket) ticket;
-                        for (Map.Entry<Integer, Integer> entry: ((SqlTicket) ticket).getSqlTicketLines().entrySet()) {
-                            int productIndex = activeLittleShopOfHorrors.getProductIndexById(entry.getKey());
+                    System.out.println(activeLittleShopOfHorrors.getTickets().toString());
+                    for (int i = 0; i < activeLittleShopOfHorrors.getTickets().size() - 1; i++) {
+                        SqlTicket sqlTicket = (SqlTicket) activeLittleShopOfHorrors.getTickets().get(i);
+                        for (Map.Entry<Integer, Integer> entry: sqlTicket.getSqlTicketLines().entrySet()) {
+                            int productIndex = activeLittleShopOfHorrors.getProductIndexBySqlId(entry.getKey());
                             Product productToAdd = activeLittleShopOfHorrors.getStock().get(productIndex);
-                            activeLittleShopOfHorrors.getTickets().get(sqlTicket.getId()).addTicketLine(productToAdd, entry.getValue());
+                            activeLittleShopOfHorrors.getTickets().get(i).addTicketLine(productToAdd, entry.getValue());
                         }
                     }
                     break;
@@ -291,17 +292,24 @@ public class Application {
                         if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
                             ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
                         }
+
+                        // do abstract method showTicket() in ticket, override in json & sql
                         System.out.println("_______________________________\n" +
                                 activeLittleShopOfHorrors.getName() + "     " + newTicket.showHeader() +
                                 newTicket.showLines() +
                                 "\n_______________________________\n");
+
+
                         activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
                         activeLittleShopOfHorrors.calculateTotalSalesValue();
                         break;
                     case 7: // Show old purchases list
-                        activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
-                        activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
-                        break;
+                        if (activeLittleShopOfHorrors instanceof JsonFlowerShop) {
+                            activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
+                            activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
+
+                        }
+                         break;
                     case 8: // Show total sales value
                         totalSalesValue = activeLittleShopOfHorrors.calculateTotalSalesValue();
                         System.out.println(activeLittleShopOfHorrors.toString() + "\n" +

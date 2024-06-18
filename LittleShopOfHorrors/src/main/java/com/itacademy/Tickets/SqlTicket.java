@@ -11,18 +11,18 @@ import java.util.Map;
 
 public class SqlTicket extends Ticket{
 
-    private int ticketSqlId;
+    private int sqlTicketId;
 
     private Map<Integer, Integer> sqlTicketLines;
 
     public SqlTicket(int flowerShopId, int ticketSqlId) {
         super(flowerShopId);
-        this.ticketSqlId = ticketSqlId;
+        this.sqlTicketId = ticketSqlId;
         this.sqlTicketLines = new HashMap<>();
     }
 
     public int getTicketSqlId() {
-        return ticketSqlId;
+        return sqlTicketId;
     }
 
     public Map<Integer, Integer> getSqlTicketLines() {
@@ -30,7 +30,12 @@ public class SqlTicket extends Ticket{
     }
 
     public void setSqlTicketLines(Map<Integer, Integer> sqlTicketLines) {
-        this.sqlTicketLines = sqlTicketLines;
+        sqlTicketLines = sqlTicketLines;
+    }
+
+    public void addSqlTicketLine(Integer productId, Integer quantity) {
+        this.sqlTicketLines.put(productId, quantity);
+
     }
 
     @Override
@@ -47,8 +52,21 @@ public class SqlTicket extends Ticket{
             productSqlId = ((SqlDecoration) product).getSqlId();
         }
         String addTicketLinesQuery = "INSERT INTO TicketLine (ticketId, productId, quantity, lineValue) VALUES\n" +
-                "(" + this.ticketSqlId + ", (SELECT productId FROM Product WHERE name = " + product.getName() + "), " + quantity + ", " + lineValue + ");\n" +
+                "(" + this.sqlTicketId + ", (SELECT productId FROM Product WHERE name = " + product.getName() + "), " + quantity + ", " + lineValue + ");\n" +
                 "UPDATE Product SET stock = " + (product.getStock() - quantity) + " WHERE productId = " + productSqlId + ";";
 
     }
+
+    @Override
+    public String toString() {
+        return sqlTicketId + " " + super.getTimestamp() + "\n"
+                + super.getTicketLines() + sqlTicketLines + "\n" +
+                "TOTAL " + getTicketValue() + " €";
+    }
+
+    @Override
+    public String showHeader() {
+        return sqlTicketId + "\n   " + super.getTimestamp() + "\n";
+    }
+
 }
