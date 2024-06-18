@@ -18,23 +18,19 @@ public class MongoQueries {
     private static MongoCollection<Document> productCollection = database.getCollection("Product");
 
     // Insertar una tienda
-    public static void insertFlowerShop() {
-        Document document = new Document("productId", product.getProductId())
-                .append("name", product.getName())
-                .append("price", product.getPrice())
-                .append("stock", product.getStock())
-                .append("type", product.getClass());
-
-        productCollection.insertOne(document);
+    public static void insertFlowerShop(String name, double stockValue) {
+        Document document = new Document("name", name)
+                .append("stockValue", stockValue);
+        database.getCollection("FlowerShop").insertOne(document);
     }
+
     // Insertar un producto
     public static void insertProduct(Product product) {
         Document document = new Document("productId", product.getProductId())
             .append("name", product.getName())
             .append("price", product.getPrice())
             .append("stock", product.getStock())
-            .append("type", product.getClass());
-
+            .append("type", product.getClass().getSimpleName());
         productCollection.insertOne(document);
     }
 
@@ -47,7 +43,6 @@ public class MongoQueries {
             Updates.set("stock", stock),
             Updates.set("type", type)
         );
-
         productCollection.updateOne(filter, update);
     }
 
@@ -87,5 +82,56 @@ public class MongoQueries {
             ));
         }
         return products;
+    }
+
+    // Insertar un ticket
+    public static void insertTicket(Ticket ticket) {
+        Document document = new Document("ticketId", ticket.getId())
+            .append("flowerShopId", ticket.getFlowerShopId())
+            .append("timestamp", ticket.getTimestamp())
+            .append("ticketValue", ticket.getTicketValue());
+        database.getCollection("Ticket").insertOne(document);
+    }
+
+    // Insertar líneas de ticket
+    public static void insertTicketLine(int ticketId, int productId, int quantity, double lineValue) {
+        Document document = new Document("ticketId", ticketId)
+            .append("productId", productId)
+            .append("quantity", quantity)
+            .append("lineValue", lineValue);
+        database.getCollection("TicketLine").insertOne(document);
+    }
+
+    // Actualizar valor del ticket
+    public static void updateTicketValue(int ticketId, double ticketValue) {
+        Bson filter = Filters.eq("ticketId", ticketId);
+        Bson update = Updates.set("ticketValue", ticketValue);
+        database.getCollection("Ticket").updateOne(filter, update);
+    }
+
+    // Eliminar un ticket
+    public static void deleteTicket(int ticketId) {
+        Bson filter = Filters.eq("ticketId", ticketId);
+        database.getCollection("Ticket").deleteOne(filter);
+    }
+
+    // Obtener todas las líneas de ticket
+    public static List<Document> getTicketLines(int ticketId) {
+        Bson filter = Filters.eq("ticketId", ticketId);
+        return database.getCollection("TicketLine").find(filter).into(new ArrayList<>());
+    }
+
+    // Obtener todos los tickets
+    public static List<Ticket> getAllTickets() {
+        List<Ticket> tickets = new ArrayList<>();
+        for (Document doc : database.getCollection("Ticket").find()) {
+            tickets.add(new Ticket(
+                doc.getInteger("ticketId"),
+                doc.getInteger("flowerShopId"),
+                doc.getDate("timestamp"),
+                doc.getDouble("ticketValue")
+            ));
+        }
+        return tickets;
     }
 }

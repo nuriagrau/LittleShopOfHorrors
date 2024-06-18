@@ -1,0 +1,50 @@
+//Connect
+"mongodb://localhost:27017"
+
+// Seleccionar la base de datos
+use thelittleshopofhorrorsdb;
+
+// Crear colecciones (si no existen)
+db.createCollection("Product");
+db.createCollection("Tree");
+db.createCollection("Flower");
+db.createCollection("Decoration");
+db.createCollection("Ticket");
+db.createCollection("TicketLine");
+
+// Insertar datos en la colección Product
+db.Product.insertMany([
+    { productId: 1, name: "Audrey II", price: 1500.00, stock: 1, type: "TREE" },
+    { productId: 2, name: "Rose", price: 5.00, stock: 100, type: "FLOWER" },
+    { productId: 3, name: "Daffodil", price: 3.00, stock: 50, type: "FLOWER" },
+    { productId: 4, name: "Wooden Pot", price: 25.00, stock: 30, type: "DECORATION" },
+    { productId: 5, name: "Plastic Pot", price: 15.00, stock: 50, type: "DECORATION" }
+]);
+
+// Insertar datos en la colección Tree
+db.Tree.insertOne({ productId: 1, heightCm: 300 });
+
+// Insertar datos en la colección Flower
+db.Flower.insertMany([
+    { productId: 2, colour: "Red" },
+    { productId: 3, colour: "Yellow" }
+]);
+
+// Insertar datos en la colección Decoration
+db.Decoration.insertMany([
+    { productId: 4, material: "WOOD" },
+    { productId: 5, material: "PLASTIC" }
+]);
+
+// Insertar datos en la colección Ticket
+db.Ticket.insertMany([
+    { ticketId: 1, timestamp: new Date(), totalValue: 1550.00 },
+    { ticketId: 2, timestamp: new Date(), totalValue: 50.00 }
+]);
+
+// Insertar datos en la colección TicketLine
+db.TicketLine.insertMany([
+    { ticketLineId: 1, ticketId: 1, productId: 1, quantity: 1 },
+    { ticketLineId: 2, ticketId: 2, productId: 2, quantity: 5 },
+    { ticketLineId: 3, ticketId: 2, productId: 3, quantity: 10 }
+]);
