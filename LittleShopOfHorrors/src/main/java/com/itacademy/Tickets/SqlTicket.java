@@ -18,15 +18,11 @@ public class SqlTicket extends Ticket{
     public SqlTicket(int flowerShopId, int ticketSqlId) {
         super(flowerShopId);
         this.ticketSqlId = ticketSqlId;
-        sqlTicketLines = new HashMap<>();
+        this.sqlTicketLines = new HashMap<>();
     }
 
     public int getTicketSqlId() {
         return ticketSqlId;
-    }
-
-    public void setTicketSqlId(int ticketSqlId) {
-        this.ticketSqlId = ticketSqlId;
     }
 
     public Map<Integer, Integer> getSqlTicketLines() {

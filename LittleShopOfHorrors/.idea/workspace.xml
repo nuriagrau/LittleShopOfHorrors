@@ -7,7 +7,7 @@
     <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="ticketLines added new statement &amp; new Resultset for second query">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/SqlTicket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/SqlTicket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,7 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "nuria",
+    "git-widget-placeholder": "dev",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -71,6 +71,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -123,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718368410679</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="ammendments loadSqlTickets()">
+      <option name="closed" value="true" />
+      <created>1718712156631</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718712156631</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

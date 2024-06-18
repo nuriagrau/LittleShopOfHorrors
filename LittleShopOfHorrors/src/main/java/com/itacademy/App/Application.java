@@ -98,8 +98,7 @@ public class Application {
                     activeLittleShopOfHorrors.setTickets(loadSqlTickets(sqlFlowerShopId));
                     for (Ticket ticket : activeLittleShopOfHorrors.getTickets()){
                         SqlTicket sqlTicket = (SqlTicket) ticket;
-                        Map<Integer, Integer> sqlTicketLines = loadSqlTicketLines(sqlTicket.getTicketSqlId());
-                        for (Map.Entry<Integer, Integer> entry: sqlTicketLines.entrySet()) {
+                        for (Map.Entry<Integer, Integer> entry: ((SqlTicket) ticket).getSqlTicketLines().entrySet()) {
                             int productIndex = activeLittleShopOfHorrors.getProductIndexById(entry.getKey());
                             Product productToAdd = activeLittleShopOfHorrors.getStock().get(productIndex);
                             activeLittleShopOfHorrors.getTickets().get(sqlTicket.getId()).addTicketLine(productToAdd, entry.getValue());
