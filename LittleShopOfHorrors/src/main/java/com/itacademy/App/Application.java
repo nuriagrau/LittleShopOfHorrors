@@ -269,7 +269,6 @@ public class Application {
                                 activeFlowershopId = ((SqlFlowerShop) activeLittleShopOfHorrors).getSqlFlowerShopId();
                             }
                             Ticket newTicket = activeLittleShopOfHorrors.createTicket(activeFlowershopId);
-
                                 do {
                                     ticketProductType = inputInt("""
                                             Enter the product type you want to buy or exit:
@@ -311,36 +310,31 @@ public class Application {
                                         }
                                     }
                                 } while(ticketProductType !=0);
-                                    activeLittleShopOfHorrors.addTicket(newTicket);
-                                    ticketValue = newTicket.calculateTicketValue();
-                                    newTicket.setTicketValue(ticketValue);
-                                    if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
-                                        ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
-                                    }
-                                    // do abstract method showTicket() in ticket, override in json & sql
-                                    if (activeLittleShopOfHorrors instanceof JsonFlowerShop) {
-                                        ticketHeader = newTicket.showHeader();
-                                    } else if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
-                                        ticketHeader = ((SqlTicket) newTicket).showHeader();
-                                    }
-                                    if (ticketValue != 0) {
-                                        System.out.println("__________________________________\n" +
-                                                "LittleShopOfHorrors     " + activeLittleShopOfHorrors.getName() + "\n"
-                                                + ticketHeader +
-                                                newTicket.showLines() +
-                                                "\n__________________________________\n");
+                                activeLittleShopOfHorrors.addTicket(newTicket);
+                                ticketValue = newTicket.calculateTicketValue();
+                                newTicket.setTicketValue(ticketValue);
+                                if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                                    ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
+                                }
+                                // do abstract method showTicket() in ticket, override in json & sql?
+                                if (activeLittleShopOfHorrors instanceof JsonFlowerShop) {
+                                    ticketHeader = newTicket.showHeader();
+                                } else if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                                    ticketHeader = ((SqlTicket) newTicket).showHeader();
+                                }
+                                if (ticketValue != 0) {
+                                    System.out.println("__________________________________\n" +
+                                            "LittleShopOfHorrors     " + activeLittleShopOfHorrors.getName() + "\n"
+                                            + ticketHeader +
+                                            newTicket.showLines() +
+                                            "\n__________________________________\n");
 
-                                        activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
-                                        activeLittleShopOfHorrors.calculateTotalSalesValue();
-
-                                    }
-
+                                    activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
+                                    activeLittleShopOfHorrors.calculateTotalSalesValue();
+                                }
                             break;
-                        // Show old purchases list
-                        case 7:
-                            //activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
+                        case 7: // Show old purchases list
                             activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
-
                             break;
                         case 8: // Show total sales value
                             totalSalesValue = activeLittleShopOfHorrors.calculateTotalSalesValue();
@@ -352,9 +346,6 @@ public class Application {
                                     "\n______________________________________\n" );
                             break;
                     }
-
-                    //activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue()); Maybe here as it is nearly always a t each case?
-
                 } while (option != 0 && (option > 0 || option < 8));
             }
         } while ((level != 0) && ( level < 0 || level > 3));
