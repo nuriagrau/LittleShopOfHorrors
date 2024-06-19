@@ -190,14 +190,14 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int sqlId =  -1;
         try {
             myStatement = con.createStatement();
-            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "'TREE'" +");";
+            String addProductQuery = "INSERT INTO Product (name, price, stock, productType) VALUES ('" + name + "', " + price + ", " +  stock +  ", " +  "'TREE'" +");";
             String askLastInsert = "SELECT last_insert_id();";
             int rows = myStatement.executeUpdate(addProductQuery);
             ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
             while (myResultSet.next()) {
                 sqlId = myResultSet.getInt("last_insert_id()");
             }
-            addTreeQuery = "INSERT INTO Tree (productId, material) VALUES (" + sqlId + ", " + heightCm + ");";
+            addTreeQuery = "INSERT INTO Tree (productId, heightCm) VALUES (" + sqlId + ", " + heightCm + ");";
             int decoRows = myStatement.executeUpdate(addTreeQuery);
             if (decoRows > 0) {
                 System.out.println("Tree " + name  + " inserted successfully.");
@@ -217,7 +217,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int sqlId =  -1;
         try {
             myStatement = con.createStatement();
-            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "'FLOWER'" +");";
+            String addProductQuery = "INSERT INTO Product (name, price, stock, productType) VALUES ('" + name +"', " + price + ", " +  stock +  ", " +  "'FLOWER'" +");";
             String askLastInsert = "SELECT last_insert_id();";
             int rows = myStatement.executeUpdate(addProductQuery);
             ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
@@ -244,7 +244,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         int sqlId =  -1;
         try {
             myStatement = con.createStatement();
-            String addProductQuery = "INSERT INTO Product (name, price, stock, type) VALUES (" + name +", " + price + ", " +  stock +  ", " +  "'DECORATION'" +");";
+            String addProductQuery = "INSERT INTO Product (name, price, stock, productType) VALUES ('" + name +"', " + price + ", " +  stock +  ", " +  "'DECORATION'" +");";
             String askLastInsert = "SELECT last_insert_id();";
             int rows = myStatement.executeUpdate(addProductQuery);
             ResultSet myResultSet = myStatement.executeQuery(askLastInsert);
