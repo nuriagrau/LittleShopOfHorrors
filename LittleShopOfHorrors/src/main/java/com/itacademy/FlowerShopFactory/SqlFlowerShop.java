@@ -37,7 +37,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     }
 
 
-    public static String showExistentFlowershops() {
+    public static String showExistentFlowershops() throws NullPointerException {
         String existentFlowerShops = "", name;
         int id;
         String selectFlowerShop = "SELECT * FROM FlowerShop";
@@ -59,7 +59,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         }
     }
 
-    public static SqlFlowerShop loadSqlFlowerShop(int sqlFlowerShopId) {
+    public static SqlFlowerShop loadSqlFlowerShop(int sqlFlowerShopId) throws NullPointerException {
         String flowerShopName;
         double stockValue;
         String selectFlowerShop = "SELECT * FROM FlowerShop WHERE flowerShopId =" + sqlFlowerShopId;
@@ -123,8 +123,6 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
                     newSqlStock.add(newProduct);
                 }
             }
-
-
 
         } catch (Exception e) {
             e.getMessage();
