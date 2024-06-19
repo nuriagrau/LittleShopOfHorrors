@@ -7,7 +7,6 @@
     <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="ticketLines added new statement &amp; new Resultset for second query">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +70,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />

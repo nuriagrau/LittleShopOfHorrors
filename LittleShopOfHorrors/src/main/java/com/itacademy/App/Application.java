@@ -118,6 +118,7 @@ public class Application {
                 case 3:
                     break;
             }
+            System.out.println(enterMessage);
             if (level != 0 && flowerShop != 0) {
                 do {
                     String name = "", colour, material;
@@ -327,11 +328,12 @@ public class Application {
                             System.out.println(activeLittleShopOfHorrors.toString() + "\n" +
                                     "___________________________________________________________________\n" +
                                     "\nTOTAL SALES VALUE =" + totalSalesValue);
+                            break;
                     }
 
                     //activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue()); Maybe here as it is nearly always a t each case?
 
-                } while (option !=0 && (option < 0 || option > 8));
+                } while (option != 0 && (option > 0 || option < 8));
             }
         } while ((level != 0) && ( level < 0 || level > 3));
     }
