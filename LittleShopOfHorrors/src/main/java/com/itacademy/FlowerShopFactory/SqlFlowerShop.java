@@ -321,6 +321,53 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         return new SqlTicket(flowerShopId, sqlTicketId);
     }
 
+    public void addSqlTicketLine(int flowerShopId, int sqlTicketId, Product product, int quantity) {
+        int productSqlId = -1;
+        double lineValue = product.getPrice() * quantity;
+        if (product instanceof SqlTree) {
+            productSqlId = ((SqlTree) product).getSqlId();
+        } else if (product instanceof SqlFlower) {
+            productSqlId = ((SqlFlower) product).getSqlId();
+        } else if (product instanceof SqlDecoration) {
+            productSqlId = ((SqlDecoration) product).getSqlId();
+        }
+        Statement myStatement = null;
+        try {
+            myStatement = con.createStatement();
+            String addTicketLinesQuery = "INSERT INTO TicketLine (ticketId, productId, quantity, lineValue) VALUES\n" +
+            "(" + sqlTicketId + ", (SELECT productId FROM Product WHERE name = " + product.getName() + "), " + quantity + ", " + lineValue + ");\n" +
+                    "UPDATE Product SET stock = " + (product.getStock() - quantity) + " WHERE productId = " + productSqlId + ";";
+            int rows = myStatement.executeUpdate(addTicketLinesQuery);
+            System.out.println("Ticket created successfully.");
+            myStatement.close();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+    public void updateStockAfterTicketLine(Product product, int quantity) {
+        Statement myStatement = null;
+        int productSqlId = -1;
+        if (product instanceof SqlTree) {
+            productSqlId = ((SqlTree) product).getSqlId();
+        } else if (product instanceof SqlFlower) {
+            productSqlId = ((SqlFlower) product).getSqlId();
+        } else if (product instanceof SqlDecoration) {
+            productSqlId = ((SqlDecoration) product).getSqlId();
+        }
+        String updateTicketValueQuery = "UPDATE Product SET stock = " + (product.getStock() - quantity)  + "WHERE ticketId = " + productSqlId +";\n";
+        try {
+            myStatement = con.createStatement();
+            int rows = myStatement.executeUpdate(updateTicketValueQuery);
+            if (rows > 0) {
+                System.out.println("Product stock updated.");
+            }
+            myStatement.close();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
     @Override
     public void addTicket(Ticket ticket) {
         super.getTickets().add(ticket);

@@ -41,6 +41,7 @@ public class Application {
     public static void startShow() throws Exception {
         int level, option, productType;
         int flowerShop = -1, flowerShopIndex = -1, productId = 0, quantity;
+        int jsonFlowerShop = -1;
         String enterMessage = null, flowerShopName = null;
         double ticketValue,totalSalesValue;
         do {
@@ -58,13 +59,13 @@ public class Application {
                     break;
                 case 1:
                     do {
-                        flowerShop = inputInt(""" 
+                        jsonFlowerShop = inputInt(""" 
                                 Welcome to Little Shop of Horrors! Choose an option: 
                                 0. Exit
                                 1. Create new flower shop
                                 2. Enter to an existent flower shop NOT FUCTIONAL YET!
                                 """);
-                        switch (flowerShop) {
+                        switch (jsonFlowerShop) {
                             case 0:
                                 enterMessage = "AudreyII says Aloha!!!";
 
@@ -89,7 +90,7 @@ public class Application {
                         enterMessage = "Entering to " + flowerShopName + " flower shop...";*/
                                 break;
                         }
-                    }  while(flowerShop !=0 && (flowerShop < 0 || flowerShop > 2));
+                    }  while(jsonFlowerShop !=0 && (jsonFlowerShop < 0 || jsonFlowerShop > 2));
                     break;
                 case 2:
                     // Singleton to database
@@ -119,7 +120,7 @@ public class Application {
                     break;
             }
             System.out.println(enterMessage);
-            if (level != 0 && flowerShop != 0) {
+            if (level != 0 && jsonFlowerShop != 0) {
                 do {
                     String name = "", colour, material;
                     double price;
@@ -164,6 +165,7 @@ public class Application {
                         case 1:
                             flowerShopId = activeLittleShopOfHorrors.getId();
                             do {
+                                productType = 0;
                                 productType = inputInt("""
                                     Enter the product type to add:
                                     0. Exit
@@ -210,6 +212,7 @@ public class Application {
                             int sqlId = -1;
                             String typeValue = null;
                             do {
+                                productType = 0;
                                 productType = inputInt("""
                                     Enter the product type to remove:
                                     0. Exit
@@ -287,9 +290,12 @@ public class Application {
                                             quantity = inputInt("Enter quantity: ");
                                             stock = activeLittleShopOfHorrors.getStock().get(productIndex).getStock();
                                             if (quantity <= stock) {
+                                                if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                                                    ((SqlFlowerShop) activeLittleShopOfHorrors).addSqlTicketLine(((SqlFlowerShop) activeLittleShopOfHorrors).getSqlFlowerShopId(), ((SqlTicket)newTicket).getTicketSqlId(), productToAdd, quantity);
+                                                    ((SqlFlowerShop) activeLittleShopOfHorrors).updateStockAfterTicketLine(productToAdd, quantity);
+                                                }
                                                 newTicket.addTicketLine(productToAdd, quantity);
                                                 activeLittleShopOfHorrors.getStock().get(productIndex).setStock(stock - quantity);
-                                                // update sqlstock in db create method in sqlFlowerShop *******
                                                 System.out.println("Product added to the ticket");
                                             } else {
                                                 System.out.println("The product stock is " + stock + " enter an equal or lower quantity.");
@@ -299,7 +305,7 @@ public class Application {
                                         System.out.println("There is no product with id " + productId);
                                     }
                                 }
-                            } while (ticketProductType != 0 && (ticketProductType < 0 || ticketProductType > 3));
+                            } while (ticketProductType != 0 && (ticketProductType < 1 || ticketProductType > 3));
                             activeLittleShopOfHorrors.addTicket(newTicket);
                             ticketValue = newTicket.calculateTicketValue();
                             newTicket.setTicketValue(ticketValue);
@@ -312,7 +318,6 @@ public class Application {
                                     activeLittleShopOfHorrors.getName() + "     " + newTicket.showHeader() +
                                     newTicket.showLines() +
                                     "\n_______________________________\n");
-
 
                             activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
                             activeLittleShopOfHorrors.calculateTotalSalesValue();
