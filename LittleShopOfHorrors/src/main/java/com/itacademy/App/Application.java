@@ -40,7 +40,7 @@ public class Application {
 
     public static void startShow() throws Exception {
         int level, option, productType;
-        int flowerShop = 0, flowerShopIndex = -1, productId = 0, quantity;
+        int flowerShop = -1, flowerShopIndex = -1, productId = 0, quantity;
         String enterMessage = null, flowerShopName = null;
         double ticketValue,totalSalesValue;
         do {

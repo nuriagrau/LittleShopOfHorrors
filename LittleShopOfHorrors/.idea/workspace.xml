@@ -142,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718747667652</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fixed some issues with menu exit">
+      <option name="closed" value="true" />
+      <created>1718791143993</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1718791143993</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,6 +171,7 @@
     <MESSAGE value="Change e.printStackTrace for e.getMessage &amp; lineValue, removeTicket, showOldTickets" />
     <MESSAGE value="ticketLines added new statement &amp; new Resultset for second query" />
     <MESSAGE value="sqlcreation/deletion methods corrected like createTicket with SELECT last_insert_id &amp; executeUpdate instead of executeQuery when INSERT &amp; DELETE" />
-    <option name="LAST_COMMIT_MESSAGE" value="sqlcreation/deletion methods corrected like createTicket with SELECT last_insert_id &amp; executeUpdate instead of executeQuery when INSERT &amp; DELETE" />
+    <MESSAGE value="Fixed some issues with menu exit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed some issues with menu exit" />
   </component>
 </project>
