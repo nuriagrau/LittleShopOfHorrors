@@ -15,9 +15,9 @@ public class SqlTicket extends Ticket{
 
     private Map<Integer, Integer> sqlTicketLines;
 
-    public SqlTicket(int flowerShopId, int ticketSqlId) {
-        super(flowerShopId);
-        this.sqlTicketId = ticketSqlId;
+    public SqlTicket(int sqlFlowerShopId, int qlTicketId) {
+        super(sqlFlowerShopId);
+        this.sqlTicketId = qlTicketId;
         this.sqlTicketLines = new HashMap<>();
     }
 
@@ -48,7 +48,8 @@ public class SqlTicket extends Ticket{
 
     @Override
     public String showHeader() {
-        return sqlTicketId + "\n   " + super.getTimestamp() + "\n";
+        return sqlTicketId + " " + super.getTimestamp() + "\n";
     }
+
 
 }

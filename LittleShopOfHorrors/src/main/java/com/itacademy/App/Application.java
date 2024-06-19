@@ -39,7 +39,7 @@ public class Application {
     public static String jsonDirPath;
 
     public static void startShow() throws Exception {
-        int level, option, productType;
+        int level, option, productType, jsonFlowerShopId = -1, sqlFlowerShopId = -1;
         int flowerShop = -1, flowerShopIndex = -1, productId = 0, quantity;
         int jsonFlowerShop = -1;
         String enterMessage = null, flowerShopName = null;
@@ -73,6 +73,7 @@ public class Application {
                             case 1:
                                 flowerShopName = inputString("Enter the name for the new flower Shop: ");
                                 activeLittleShopOfHorrors = new JsonFlowerShop(flowerShopName);
+                                jsonFlowerShopId = activeLittleShopOfHorrors.getId();
                                 // Create dir for flowershop
                                 // add flowershopName to flowershops arraylist
                                 jsonFlowerShops.add(flowerShopName);
@@ -96,7 +97,6 @@ public class Application {
                     // Singleton to database
                     // Enter a blank FlowerShop with name BlankFlowerShop or DefaultFlowerShop
                     // 0 to exit (flowershopId Start with 100 if flowershopId == 0 exit else...
-                    int sqlFlowerShopId;
                     try {
                         sqlFlowerShopId = inputInt(SqlFlowerShop.showExistentFlowershops() + "Enter the Flowershop Id");
                         activeLittleShopOfHorrors = loadSqlFlowerShop(sqlFlowerShopId);
@@ -261,37 +261,34 @@ public class Application {
                         case 6: // Create Purchase Ticket
                             int ticketProductType;
                             Ticket newTicket = activeLittleShopOfHorrors.createTicket(activeLittleShopOfHorrors.getId());
-                            do {
-                                ticketProductType = inputInt("""
-                                    Enter the product type you want to buy or exit:
-                                    0. Exit
-                                    1. Tree
-                                    2. Flower
-                                    3. Decoration
-                                    """);
-                                switch (ticketProductType) {
-                                    case 0:
-                                        break;
-                                    case 1:
-                                        productId = inputInt(activeLittleShopOfHorrors.showProductsByType(1) + "\nEnter the tree id: ");
-                                        break;
-                                    case 2:
-                                        productId = inputInt(activeLittleShopOfHorrors.showProductsByType(2) + "\nEnter the flower id: ");
-                                        break;
-                                    case 3:
-                                        productId = inputInt(activeLittleShopOfHorrors.showProductsByType(3) + "\nEnter the decoration id: ");
-                                        break;
-                                }
-                                if (ticketProductType != 0) {
-                                    productIndex = activeLittleShopOfHorrors.getProductIndexById(productId);
-                                    if (productIndex != -1) {
-                                        Product productToAdd = activeLittleShopOfHorrors.getProduct(productIndex);
-                                        do {
+                                do {
+                                    ticketProductType = inputInt("""
+                                            Enter the product type you want to buy or exit:
+                                            0. Exit
+                                            1. Tree
+                                            2. Flower
+                                            3. Decoration
+                                            """);
+                                    if (ticketProductType != 0) {
+                                        switch (ticketProductType) {
+                                            case 1:
+                                                productId = inputInt(activeLittleShopOfHorrors.showProductsByType(1) + "\nEnter the tree id: ");
+                                                break;
+                                            case 2:
+                                                productId = inputInt(activeLittleShopOfHorrors.showProductsByType(2) + "\nEnter the flower id: ");
+                                                break;
+                                            case 3:
+                                                productId = inputInt(activeLittleShopOfHorrors.showProductsByType(3) + "\nEnter the decoration id: ");
+                                                break;
+                                        }
+                                        productIndex = activeLittleShopOfHorrors.getProductIndexById(productId);
+                                        if (productIndex != -1) {
+                                            Product productToAdd = activeLittleShopOfHorrors.getProduct(productIndex);
                                             quantity = inputInt("Enter quantity: ");
                                             stock = activeLittleShopOfHorrors.getStock().get(productIndex).getStock();
                                             if (quantity <= stock) {
                                                 if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
-                                                    ((SqlFlowerShop) activeLittleShopOfHorrors).addSqlTicketLine(((SqlFlowerShop) activeLittleShopOfHorrors).getSqlFlowerShopId(), ((SqlTicket)newTicket).getTicketSqlId(), productToAdd, quantity);
+                                                    ((SqlFlowerShop) activeLittleShopOfHorrors).addSqlTicketLine(((SqlFlowerShop) activeLittleShopOfHorrors).getSqlFlowerShopId(), ((SqlTicket) newTicket).getTicketSqlId(), productToAdd, quantity);
                                                     ((SqlFlowerShop) activeLittleShopOfHorrors).updateStockAfterTicketLine(productToAdd, quantity);
                                                 }
                                                 newTicket.addTicketLine(productToAdd, quantity);
@@ -300,29 +297,29 @@ public class Application {
                                             } else {
                                                 System.out.println("The product stock is " + stock + " enter an equal or lower quantity.");
                                             }
-                                        } while (quantity > stock);
-                                    } else if (productIndex == -1) {
-                                        System.out.println("There is no product with id " + productId);
+                                        } else {
+                                            System.out.println("There is no product with id " + productId);
+                                        }
                                     }
-                                }
-                            } while (ticketProductType != 0 && (ticketProductType < 1 || ticketProductType > 3));
-                            activeLittleShopOfHorrors.addTicket(newTicket);
-                            ticketValue = newTicket.calculateTicketValue();
-                            newTicket.setTicketValue(ticketValue);
-                            if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
-                                ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
-                            }
+                                } while(ticketProductType !=0);
+                                    activeLittleShopOfHorrors.addTicket(newTicket);
+                                    ticketValue = newTicket.calculateTicketValue();
+                                    newTicket.setTicketValue(ticketValue);
+                                    if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                                        ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
+                                    }
+                                    // do abstract method showTicket() in ticket, override in json & sql
+                                    System.out.println("_______________________________\n" +
+                                            "LittleShopOfHorrors     " + activeLittleShopOfHorrors.getName() + "\n"
+                                            + newTicket.showHeader() +
+                                            newTicket.showLines() +
+                                            "\n_______________________________\n");
 
-                            // do abstract method showTicket() in ticket, override in json & sql
-                            System.out.println("_______________________________\n" +
-                                    activeLittleShopOfHorrors.getName() + "     " + newTicket.showHeader() +
-                                    newTicket.showLines() +
-                                    "\n_______________________________\n");
-
-                            activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
-                            activeLittleShopOfHorrors.calculateTotalSalesValue();
+                                    activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
+                                    activeLittleShopOfHorrors.calculateTotalSalesValue();
                             break;
-                        case 7: // Show old purchases list
+                        // Show old purchases list
+                        case 7:
                             if (activeLittleShopOfHorrors instanceof JsonFlowerShop) {
                                 activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
                                 activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());

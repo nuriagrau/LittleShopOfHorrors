@@ -98,6 +98,6 @@ public class Ticket implements ITicket {
     }
 
     public String showHeader() {
-        return id + "\n   " + timestamp + "\n";
+        return id + " " + timestamp + "\n";
     }
 }

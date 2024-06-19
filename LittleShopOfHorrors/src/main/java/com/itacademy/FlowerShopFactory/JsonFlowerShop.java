@@ -122,7 +122,8 @@ public class JsonFlowerShop extends LittleShopOfHorrors implements FlowerShopFac
     public void showOldSales(String shopName) {
         for (Ticket ticket : tickets) {
             System.out.println("____________________________\n" +
-                    shopName + "\n" + ticket.showHeader() +
+                    "LittleShopOfHorrors     " + shopName + "\n"
+                    + ticket.showHeader() +
                     ticket.showLines() +
                     "\n____________________________\n" );
         }

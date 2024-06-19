@@ -299,12 +299,12 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
 
 
     @Override
-    public Ticket createTicket(int flowerShopId) {
+    public Ticket createTicket(int sqlFlowerShopId) {
         Statement myStatement = null;
         int sqlTicketId =  -1;
         try {
             myStatement = con.createStatement();
-            String addTicketQuery = "INSERT INTO Ticket (ticketValue) VALUES\n" +
+            String addTicketQuery = "INSERT INTO Ticket (flowerShopId, ticketValue) VALUES\n" + sqlFlowerShopId +
                     "(0.0);";
             String askLastInsert = "SELECT last_insert_id();";
             int rows = myStatement.executeUpdate(addTicketQuery);
@@ -318,7 +318,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
         } catch (SQLException e) {
             e.getMessage();
         }
-        return new SqlTicket(flowerShopId, sqlTicketId);
+        return new SqlTicket(sqlFlowerShopId, sqlTicketId);
     }
 
     public void addSqlTicketLine(int flowerShopId, int sqlTicketId, Product product, int quantity) {
@@ -338,6 +338,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             "(" + sqlTicketId + ", (SELECT productId FROM Product WHERE name = " + product.getName() + "), " + quantity + ", " + lineValue + ");\n" +
                     "UPDATE Product SET stock = " + (product.getStock() - quantity) + " WHERE productId = " + productSqlId + ";";
             int rows = myStatement.executeUpdate(addTicketLinesQuery);
+            // update lineValue see createTicket
             System.out.println("Ticket created successfully.");
             myStatement.close();
         } catch (SQLException e) {
@@ -454,9 +455,9 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     @Override
     public void showOldSales(String shopName) {
         for (Ticket ticket : tickets) {
-            SqlTicket sqlTicket = (SqlTicket) ticket;
             System.out.println("____________________________\n" +
-                    shopName + "\n" + sqlTicket.showHeader() +
+                    "LittleShopOfHorrors     " + shopName + "\n"
+                    + ((SqlTicket) ticket).showHeader() +
                     ticket.showLines() +
                     "\n____________________________\n" );
         }
