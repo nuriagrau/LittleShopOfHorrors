@@ -416,7 +416,13 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
             ResultSet myResultSet = myStatement.executeQuery(selectTreeStockQuery);
             while (myResultSet.next()) {
                 stockTrees = myResultSet.getInt("TREE");
+            }
+            myResultSet = myStatement.executeQuery(selectFlowerStockQuery);
+            while (myResultSet.next()) {
                 stockFlowers = myResultSet.getInt("FLOWER");
+            }
+            myResultSet = myStatement.executeQuery(selectDecorationStockQuery);
+            while (myResultSet.next()) {
                 stockDecoration = myResultSet.getInt("DECORATION");
             }
             myResultSet.close();

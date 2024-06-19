@@ -61,6 +61,14 @@ public class Ticket implements ITicket {
         this.ticketValue = ticketValue;
     }
 
+    public int getFlowerShopId() {
+        return flowerShopId;
+    }
+
+    public void setFlowerShopId(int flowerShopId) {
+        this.flowerShopId = flowerShopId;
+    }
+
     @Override
     public String toString() {
         return id + " " + timestamp + "\n"
