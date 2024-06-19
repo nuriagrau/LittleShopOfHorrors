@@ -230,7 +230,7 @@ public class Application {
                                         typeValue = ProductType.valueOfValue("Decoration");
                                         break;
                                 }
-                            }  while(productType !=0 && (productType < 0 || productType > 3));
+                            }  while(productType != 0 && (productType < 0 || productType > 3));
                             name = inputString(activeLittleShopOfHorrors.showProductsByType(productType) + "\nEnter the name of the" + typeValue + " to remove: ");
                             productIndex = activeLittleShopOfHorrors.getProductIndex(name);
                             if (productIndex != -1) {
@@ -256,16 +256,17 @@ public class Application {
                             System.out.println(activeLittleShopOfHorrors.toString());
                             break;
                         case 6: // Create Purchase Ticket
+                            int ticketProductType;
                             Ticket newTicket = activeLittleShopOfHorrors.createTicket(activeLittleShopOfHorrors.getId());
                             do {
-                                productType = inputInt("""
+                                ticketProductType = inputInt("""
                                     Enter the product type you want to buy or exit:
                                     0. Exit
                                     1. Tree
                                     2. Flower
                                     3. Decoration
                                     """);
-                                switch (productType) {
+                                switch (ticketProductType) {
                                     case 0:
                                         break;
                                     case 1:
@@ -278,7 +279,7 @@ public class Application {
                                         productId = inputInt(activeLittleShopOfHorrors.showProductsByType(3) + "\nEnter the decoration id: ");
                                         break;
                                 }
-                                if (productType != 0) {
+                                if (ticketProductType != 0) {
                                     productIndex = activeLittleShopOfHorrors.getProductIndexById(productId);
                                     if (productIndex != -1) {
                                         Product productToAdd = activeLittleShopOfHorrors.getProduct(productIndex);
@@ -298,7 +299,7 @@ public class Application {
                                         System.out.println("There is no product with id " + productId);
                                     }
                                 }
-                            } while (productType != 0 && (productType < 0 || productType > 3));
+                            } while (ticketProductType != 0 && (ticketProductType < 0 || ticketProductType > 3));
                             activeLittleShopOfHorrors.addTicket(newTicket);
                             ticketValue = newTicket.calculateTicketValue();
                             newTicket.setTicketValue(ticketValue);
