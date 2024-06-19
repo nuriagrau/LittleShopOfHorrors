@@ -139,24 +139,26 @@ public class Application {
 
                     switch (option) {
                         case 0:
-                            do {
-                                saveFlowerShop = inputInt("""
-                                    0. Exit
-                                    1. Save active flowershop.
-                                    2. Leave without saving active flowershop.
-                                    """);
-                                switch (saveFlowerShop) {
-                                    case 0:
-                                        break;
-                                    case 1:
-                                        jsonDirPath = createShopDir(obtainJsonDirPath(flowerShopName));
-                                        JsonFlowerShop.serializedJsonFlowerShop((JsonFlowerShop) activeLittleShopOfHorrors);
-                                        break;
-                                    case 2:
-                                        System.out.println("Active flower shop will be missed....");
-                                        break;
-                                }
-                            } while(saveFlowerShop !=0 && (saveFlowerShop < 0 || saveFlowerShop > 2));
+                            if (activeLittleShopOfHorrors instanceof JsonFlowerShop) {
+                                do {
+                                    saveFlowerShop = inputInt("""
+                                            0. Exit
+                                            1. Save active flowershop.
+                                            2. Leave without saving active flowershop.
+                                            """);
+                                    switch (saveFlowerShop) {
+                                        case 0:
+                                            break;
+                                        case 1:
+                                            jsonDirPath = createShopDir(obtainJsonDirPath(flowerShopName));
+                                            JsonFlowerShop.serializedJsonFlowerShop((JsonFlowerShop) activeLittleShopOfHorrors);
+                                            break;
+                                        case 2:
+                                            System.out.println("Active flower shop will be missed....");
+                                            break;
+                                    }
+                                } while (saveFlowerShop != 0 && (saveFlowerShop < 0 || saveFlowerShop > 2));
+                            }
                             System.out.println("You are leaving " + flowerShopName + "...");
                             break;
                         case 1:

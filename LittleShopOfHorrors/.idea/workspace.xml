@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="Fixed some issues with menu exit2">
+    <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="menu 7 for sql corrected pick from db">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" afterDir="false" />
     </list>
@@ -25,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="nuria" />
+        <entry key="$PROJECT_DIR$/.." value="protectedDev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -46,7 +46,7 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "nuria",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
