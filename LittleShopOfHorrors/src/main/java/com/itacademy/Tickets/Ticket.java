@@ -98,7 +98,7 @@ public class Ticket implements ITicket {
         double lineValue = 0d, totalValue = 0d;
         for (Map.Entry<Product, Integer> e : ticketLines.entrySet()) {
             lineValue = e.getKey().getPrice() * e.getValue();
-            lines +=  e.getKey().getName() + "  " +  e.getValue() + "pcs  " + lineValue + "\n";
+            lines +=  e.getKey().getName() + "     " +  e.getValue() + " pcs     " + lineValue + "\n";
             totalValue += lineValue;
         }
         lines += "\nTOTAL            " + totalValue;
@@ -106,6 +106,6 @@ public class Ticket implements ITicket {
     }
 
     public String showHeader() {
-        return id + " " + timestamp + "\n";
+        return id + "     " + timestamp + "\n";
     }
 }

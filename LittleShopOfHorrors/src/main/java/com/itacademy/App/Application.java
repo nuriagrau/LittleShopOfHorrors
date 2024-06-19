@@ -324,11 +324,11 @@ public class Application {
                                         ticketHeader = ((SqlTicket) newTicket).showHeader();
                                     }
                                     if (ticketValue != 0) {
-                                        System.out.println("_______________________________\n" +
+                                        System.out.println("__________________________________\n" +
                                                 "LittleShopOfHorrors     " + activeLittleShopOfHorrors.getName() + "\n"
                                                 + ticketHeader +
                                                 newTicket.showLines() +
-                                                "\n_______________________________\n");
+                                                "\n__________________________________\n");
 
                                         activeLittleShopOfHorrors.setStockValue(activeLittleShopOfHorrors.calculateTotalValue());
                                         activeLittleShopOfHorrors.calculateTotalSalesValue();
@@ -338,11 +338,9 @@ public class Application {
                             break;
                         // Show old purchases list
                         case 7:
-                            if (activeLittleShopOfHorrors instanceof JsonFlowerShop) {
-                                activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
-                                activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
+                            //activeLittleShopOfHorrors.getTickets().toString(); // is needed? if needed sqlFloweshop must avoid this
+                            activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
 
-                            }
                             break;
                         case 8: // Show total sales value
                             totalSalesValue = activeLittleShopOfHorrors.calculateTotalSalesValue();

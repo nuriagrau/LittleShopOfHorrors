@@ -48,7 +48,7 @@ public class SqlTicket extends Ticket{
 
     @Override
     public String showHeader() {
-        return sqlTicketId + " " + super.getTimestamp() + "\n";
+        return sqlTicketId + "     " + super.getTimestamp() + "\n";
     }
 
 
