@@ -40,8 +40,7 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
     public static String showExistentFlowershops() throws NullPointerException {
         String existentFlowerShops = "", name;
         int id;
-        String selectFlowerShop = "SELECT * FROM FlowerShop";
-        SqlFlowerShop newSqlFlowerShop = null;
+        String selectFlowerShop = "SELECT * FROM FlowerShop;";
         try {
             Statement myStatement = con.createStatement();
             ResultSet myResultSet = myStatement.executeQuery(selectFlowerShop);
@@ -454,7 +453,8 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
 
     @Override
     public void showOldSales(String shopName) {
-        for (Ticket ticket : tickets) {
+        ArrayList<Ticket> oldTickets = loadSqlTickets(sqlFlowerShopId);
+        for (Ticket ticket : oldTickets) {
             System.out.println("____________________________\n" +
                     "LittleShopOfHorrors     " + shopName + "\n"
                     + ((SqlTicket) ticket).showHeader() +

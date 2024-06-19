@@ -7,10 +7,7 @@
     <list default="true" id="f6cb37c7-5384-42e3-9ca6-bfde609ac145" name="Changes" comment="Fixed some issues with menu exit2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/App/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/JsonFlowerShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/JsonFlowerShop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/FlowerShopFactory/SqlFlowerShop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/SqlTicket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/SqlTicket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itacademy/Tickets/Ticket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +47,7 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "nuria",
+    "git-widget-placeholder": "protectedDev",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -162,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718792427980</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Error when adding multiple ticket lines after adding o Exit options fixed">
+      <option name="closed" value="true" />
+      <created>1718812862689</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1718812862689</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,6 +190,7 @@
     <MESSAGE value="sqlcreation/deletion methods corrected like createTicket with SELECT last_insert_id &amp; executeUpdate instead of executeQuery when INSERT &amp; DELETE" />
     <MESSAGE value="Fixed some issues with menu exit" />
     <MESSAGE value="Fixed some issues with menu exit3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some issues with menu exit3" />
+    <MESSAGE value="Error when adding multiple ticket lines after adding o Exit options fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Error when adding multiple ticket lines after adding o Exit options fixed" />
   </component>
 </project>

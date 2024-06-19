@@ -260,6 +260,7 @@ public class Application {
                             break;
                         case 6: // Create Purchase Ticket
                             int ticketProductType;
+                            String ticketHeader, ticketLines;
                             Ticket newTicket = activeLittleShopOfHorrors.createTicket(activeLittleShopOfHorrors.getId());
                                 do {
                                     ticketProductType = inputInt("""
@@ -309,6 +310,11 @@ public class Application {
                                         ((SqlFlowerShop) activeLittleShopOfHorrors).updateTicketValue(newTicket, ticketValue);
                                     }
                                     // do abstract method showTicket() in ticket, override in json & sql
+                                    if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                                        //ticketheader sql
+                                        //ticketline sql
+                                    }
+
                                     System.out.println("_______________________________\n" +
                                             "LittleShopOfHorrors     " + activeLittleShopOfHorrors.getName() + "\n"
                                             + newTicket.showHeader() +
