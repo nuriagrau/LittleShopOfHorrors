@@ -336,7 +336,11 @@ public class Application {
                                 }
                             break;
                         case 7: // Show old purchases list
-                            activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
+                            if (activeLittleShopOfHorrors instanceof SqlFlowerShop) {
+                                ((SqlFlowerShop) activeLittleShopOfHorrors).showSqlOldSales(activeLittleShopOfHorrors.getName(), sqlFlowerShopId);
+                            } else {
+                                activeLittleShopOfHorrors.showOldSales(activeLittleShopOfHorrors.getName());
+                            }
                             break;
                         case 8: // Show total sales value
                             totalSalesValue = activeLittleShopOfHorrors.calculateTotalSalesValue();

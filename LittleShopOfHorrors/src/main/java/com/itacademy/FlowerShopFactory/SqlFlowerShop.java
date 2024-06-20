@@ -459,12 +459,18 @@ public class SqlFlowerShop extends LittleShopOfHorrors implements FlowerShopFact
 
     @Override
     public void showOldSales(String shopName) {
+
+    }
+
+
+    public void showSqlOldSales(String flowerShopName, int sqlFlowerShopId) {
+
         ArrayList<Ticket> oldTickets = loadSqlTickets(sqlFlowerShopId);
         for (Ticket ticket : oldTickets) {
             System.out.println("____________________________\n" +
-                    "LittleShopOfHorrors     " + shopName + "\n"
+                    "LittleShopOfHorrors     " + flowerShopName + "\n"
                     + ((SqlTicket) ticket).showHeader() +
-                    ticket.showLines() +
+                    ((SqlTicket) ticket).getSqlTicketLines() +
                     "\n____________________________\n" );
         }
     }
