@@ -1,6 +1,6 @@
 # Project: Little Shop of Horrors - Flower Shop Management System
 
-![Figura do Projeto](caminho/para/a/figura.png)
+![Figura do Projeto](https://cdn.discordapp.com/attachments/1225358538134655057/1253286206612045836/littleshopofhorrors.jpeg?ex=66754d3c&is=6673fbbc&hm=c0620b68b621572f869564acc5c9c25f8a46e870b286811e5c734af0fb412025&)
 
 
 ## Project Overview
